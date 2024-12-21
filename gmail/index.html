@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OP TOOLS - GMAIL GENERATOR</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/m8KZndA.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #eef2f3;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #37474f;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .navbar .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .navbar ul li a:hover {
+            color: #c5cae9;
+        }
+
+        .navbar ul li i {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+        .navbar {
+            position: relative;
+            padding: 10px 20px;
+            background: #3f51b5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .navbar .logo img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            flex-direction: column;
+            align-items: flex-start;
+            display: none;
+            width: 100%;
+            background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+            position: absolute;
+            top: 60px;
+            left: 0;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
+        }
+
+        .navbar ul.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .navbar ul li {
+            width: 100%;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .navbar ul li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            color: #ffeb3b;
+        }
+
+        .navbar ul li a .icon {
+            margin-right: 15px;
+            font-size: 22px;
+            color: #ffeb3b;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar ul li a:hover .icon {
+            transform: scale(1.2);
+        }
+
+        .navbar .menu-toggle {
+            display: block;
+            cursor: pointer;
+            font-size: 26px;
+            color: white;
+        }
+    }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .header {
+            background: #5c6bc0;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        input, .domain {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input {
+            flex: 1;
+            border-right: none;
+        }
+
+        .domain {
+            background: #f1f1f1;
+            border-left: none;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .textarea-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        button {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5c6bc0;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+        }
+    </style>
+    <script>
+        let isGenerated = false;
+
+        function toggleMenu() {
+            const navbarUl = document.querySelector('.navbar ul');
+            navbarUl.classList.toggle('active');
+        }
+
+        function cleanInput() {
+            const usernameField = document.getElementById("username");
+            const value = usernameField.value;
+            if (value.includes("@")) {
+                usernameField.value = value.split("@")[0];
+            }
+        }
+
+        function generateEmails() {
+            if (isGenerated) {
+                copyAllEmails();
+                return;
+            }
+
+            const username = document.getElementById("username").value.trim();
+            const outputArea = document.getElementById("output");
+            const countSpan = document.getElementById("count");
+            const domain = "gmail.com";
+
+            if (!username) {
+                return;
+            }
+
+            const combinations = new Set();
+            const addDots = (str, idx) => {
+                if (idx === str.length - 1) {
+                    combinations.add(str);
+                    return;
+                }
+                addDots(str, idx + 1);
+                addDots(str.slice(0, idx + 1) + "." + str.slice(idx + 1), idx + 2);
+            };
+
+            addDots(username, 0);
+
+            const emails = Array.from(combinations).map(name => `${name}@${domain}`);
+            if (emails.length > 1000) {
+                emails.length = 1000;
+            }
+
+            outputArea.value = emails.join("\n");
+            countSpan.textContent = emails.length;
+            const generateButton = document.getElementById("generateButton");
+            generateButton.textContent = "Copy";
+            isGenerated = true;
+        }
+
+        function copyAllEmails() {
+            const outputArea = document.getElementById("output");
+            outputArea.select();
+            document.execCommand("copy");
+            const generateButton = document.getElementById("generateButton");
+            generateButton.textContent = "Copied!";
+
+            setTimeout(() => {
+                generateButton.textContent = "Copy";
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="https://media.giphy.com/media/zyfq9pdkYPMkGMTDFm/giphy.gif" alt="Logo">
+            <span>OP TOOLS</span>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+        <ul>
+            <li><a href="../"><i class="fa fa-comments"></i> Transform</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i> GMAIL</a></li>
+            <li><a href="../password/"><i class="fa fa-unlock-alt"></i> PASSWORD</a></li>
+            <li><a href="../logs/"><i class="fa fa-sign-in"></i> LOG VIEWER</a></li>
+            <li><a href="../number/"><i class="fa fa-id-card"></i> Id Number</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">Gmail Generator</div>
+        <div class="content">
+            <div class="input-group">
+                <input type="text" id="username" oninput="cleanInput()" placeholder="Enter username">
+                <span class="domain">@gmail.com</span>
+            </div>
+            <div class="textarea-wrapper">
+                <textarea id="output" readonly placeholder="Generated emails will appear here..."></textarea>
+            </div>
+            <div class="button-container">
+                <button id="generateButton" onclick="generateEmails()">Generate</button>
+            </div>
+            <p>Total: <span id="count">0</span></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OP TOOLS - Transform Text</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/m8KZndA.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #eef2f3;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #37474f;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+      color: white;
+      padding: 10px 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .navbar .logo span {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      margin: 0 15px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .navbar ul li i {
+      margin-right: 8px;
+    }
+
+    .navbar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+
+    .navbar ul li a:hover {
+      color: #c5cae9;
+    }
+
+  @media (max-width: 768px) {
+    .navbar {
+      position: relative;
+      padding: 10px 20px;
+      background: #3f51b5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .navbar .logo img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .navbar ul {
+      flex-direction: column;
+      align-items: flex-start;
+      display: none;
+      width: 100%;
+      background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+      position: absolute;
+      top: 60px;
+      left: 0;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      border-radius: 0 0 12px 12px;
+      z-index: 10;
+    }
+
+    .navbar ul.active {
+      display: flex;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .navbar ul li {
+      width: 100%;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    .navbar ul li:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar ul li a:hover {
+      color: #ffeb3b;
+    }
+
+    .navbar ul li a .icon {
+      margin-right: 15px;
+      font-size: 22px;
+      color: #ffeb3b;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar ul li a:hover .icon {
+      transform: scale(1.2);
+    }
+
+    .navbar .menu-toggle {
+      display: block;
+      cursor: pointer;
+      font-size: 26px;
+      color: white;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .chat-container {
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+      margin-top: 20px;
+    }
+
+    .chat-header {
+      background: #5c6bc0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    #textInput {
+    width: calc(100% - 40px);
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    margin: 10px auto;
+    display: block;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .button-container button {
+      padding: 10px 15px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #3f51b5;
+      color: white;
+      transition: background 0.2s;
+    }
+
+    .button-container button:hover {
+      background: #5c6bc0;
+    }
+
+    .messages {
+      flex: 1;
+      max-height: 300px;
+      padding: 20px;
+      overflow-y: auto;
+      background: #eceff1;
+      margin-top: 10px;
+    }
+
+    .message-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin: 0;
+      padding: 14px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      max-width: 70%;
+      word-wrap: break-word;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-message {
+      background-color: #5c6bc0;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background-color: #c5cae9;
+      color: #37474f;
+      align-self: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <img src="https://media.giphy.com/media/zyfq9pdkYPMkGMTDFm/giphy.gif" alt="Logo">
+      <span>OP TOOLS</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    <ul>
+      <li><a href="#"><i class="fa fa-comments"></i> Transform</a></li>
+      <li><a href="./gmail/"><i class="fa fa-envelope"></i> GMAIL</a></li>
+      <li><a href="./password/"><i class="fa fa-unlock-alt"></i> PASSWORD</a></li>
+      <li><a href="./logs/"><i class="fa fa-sign-in"></i> LOG VIEWER</a></li>
+      <li><a href="./number/"><i class="fa fa-id-card"></i> Id Number</a></li>
+    </ul>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-header">Transform Text</div>
+    <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+    <div class="button-container">
+      <button onclick="transformText('sentence')">Sentence Case</button>
+      <button onclick="transformText('lower')">Lower Case</button>
+      <button onclick="transformText('upper')">Upper Case</button>
+      <button onclick="transformText('capitalize')">Capitalized Case</button>
+      <button onclick="transformText('title')">Title Case</button>
+      <button onclick="transformText('alternate')">Alternating Case</button>
+    </div>
+    <div class="messages" id="messages"></div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const navbarUl = document.querySelector('.navbar ul');
+      navbarUl.classList.toggle('active');
+    }
+
+    function transformText(caseType) {
+      let textBox = document.getElementById("textInput");
+      let text = textBox.value;
+
+      switch (caseType) {
+        case 'sentence':
+          textBox.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+          break;
+        case 'lower':
+          textBox.value = text.toLowerCase();
+          break;
+        case 'upper':
+          textBox.value = text.toUpperCase();
+          break;
+        case 'capitalize':
+          textBox.value = text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+          break;
+        case 'title':
+          textBox.value = text.replace(/\w\S*/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+          break;
+        case 'alternate':
+          let alternateText = '';
+          let toggle = true;
+          for (let char of text) {
+            alternateText += toggle ? char.toUpperCase() : char.toLowerCase();
+            toggle = !toggle;
+          }
+          textBox.value = alternateText;
+          break;
+        case 'inverse':
+          let inverseText = '';
+          for (let char of text) {
+            inverseText += char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
+          }
+          textBox.value = inverseText;
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
