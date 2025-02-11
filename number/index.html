@@ -6,7 +6,8 @@
   <title>OP TOOLS - NUMBER</title>
   <link rel="icon" type="image/png" href="https://i.imgur.com/m8KZndA.png">
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js/dist/tesseract.min.js"></script>
-  <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jimp/browser/lib/jimp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
   <style>
     body {
       font-family: 'Roboto', Arial, sans-serif;
@@ -355,6 +356,58 @@
     .messages::-webkit-scrollbar-track {
       background: #eceff1;
     }
+
+    .processing-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #5c6bc0;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 500;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      width: fit-content;
+      max-width: 80%;
+      margin: 10px auto;
+      animation: fadeIn 0.5s ease-in-out;
+  }
+
+    .processing-message .loader {
+      width: 18px;
+      height: 18px;
+      border: 3px solid white;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+  }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-message {
+      background-color: #5c6bc0;
+      color: white;
+      align-self: flex-end;
+      text-align: left;
+    }
+
+    .bot-message {
+      background-color: #c5cae9;
+      color: #37474f;
+      align-self: flex-start;
+      text-align: left;
+    }
+
   </style>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
@@ -385,107 +438,78 @@
   <canvas id="canvas" style="display: none;"></canvas>
 
   <script>
-    const messagesDiv = document.getElementById('messages');
-    const textInput = document.getElementById('textInput');
-    const navLinks = document.getElementById('nav-links');
-
-    function toggleMenu() {
-      navLinks.classList.toggle('show');
-    }
-
-    function addMessage(text, type) {
-      const messageContainer = document.createElement('div');
-      messageContainer.className = 'message-container';
-
-      const message = document.createElement('div');
-      message.className = `message ${type === 'user' ? 'user-message' : 'bot-message'}`;
-      message.textContent = text;
-
-      messageContainer.appendChild(message);
-
-      if (type === 'bot') {
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button';
-        copyButton.textContent = 'Copy';
-        copyButton.onclick = () => {
-          navigator.clipboard.writeText(text);
-        };
-        messageContainer.appendChild(copyButton);
-      }
-
-      messagesDiv.appendChild(messageContainer);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    textInput.addEventListener('input', () => {
-      const text = textInput.value.trim();
-      if (text) {
-        addMessage(text, 'user');
-        processTextMessage(text);
-        textInput.value = '';
-      }
-    });
-
-    function processTextMessage(text) {
-      if (text.startsWith('http') || text.endsWith('.jpg') || text.endsWith('.png')) {
-        processImage(text);
-      }
-    }
-
-    async function processImage(imageURL) {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = async function () {
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        let src = cv.imread(canvas);
-        let gray = new cv.Mat();
-
-        cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-
-        let threshold = new cv.Mat();
-        cv.threshold(gray, threshold, 128, 255, cv.THRESH_BINARY);
-
-        const imageData = canvas.toDataURL();
-
-        Tesseract.recognize(
-          imageData,
-          'eng',
-          { logger: info => console.log(info) }
-        ).then(({ data: { text } }) => {
-          let numbersOnly = text.match(/\d+/g);
-          if (numbersOnly) {
-            addMessage(numbersOnly.join(", "), 'bot');
-          }
-        }).catch(error => {
-          console.error(error);
-        });
-
-        src.delete();
-        gray.delete();
-        threshold.delete();
-      };
-
-      img.src = imageURL;
-    }
-
-    textInput.addEventListener('paste', (event) => {
-      const items = event.clipboardData.items;
-      for (let item of items) {
-        if (item.type.startsWith('image/')) {
-          const file = item.getAsFile();
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            processImage(e.target.result);
-          };
-          reader.readAsDataURL(file);
+    document.getElementById('textInput').addEventListener('paste', function(event) {
+        const items = event.clipboardData.items;
+        for (let item of items) {
+            if (item.type.startsWith('image/')) {
+                addMessage('Image pasted, processing...', 'user', true);
+                const file = item.getAsFile();
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    processImage(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
         }
-      }
     });
+  
+    function addMessage(text, type, isProcessing = false) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = `message-container`;
+  
+        if (isProcessing) {
+            messageContainer.innerHTML = `
+            <div class="message processing-message">
+                <span class="loader"></span>
+                ${text}
+            </div>`;
+        } else {
+            messageContainer.innerHTML = `
+            <div class="message ${type}-message">
+                ${text}
+            </div>`;
+        }
+  
+        document.getElementById('messages').appendChild(messageContainer);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    }
+  
+    async function processImage(imageSrc) {
+        try {
+            const img = await Jimp.read(imageSrc);
+  
+            img.grayscale();
+            img.contrast(0.5);
+            img.normalize();
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.bitmap.width;
+            canvas.height = img.bitmap.height;
+  
+            const imgData = ctx.createImageData(canvas.width, canvas.height);
+            imgData.data.set(img.bitmap.data);
+            ctx.putImageData(imgData, 0, 0);
+  
+            Tesseract.recognize(
+                canvas.toDataURL(),
+                'eng',
+                {
+                    logger: m => console.log(m),
+                    tessedit_char_whitelist: "0123456789"
+                }
+            ).then(({ data: { text } }) => {
+                const numbers = text.match(/\d+/g);
+                addMessage(numbers ? numbers.join(', ') : 'No numbers found', 'bot');
+            }).catch(err => {
+                addMessage('Error processing image', 'bot');
+                console.error(err);
+            });
+  
+        } catch (error) {
+            console.error("Error processing image with JIMP.js:", error);
+            addMessage('Error processing image with JIMP.js', 'bot');
+        }
+    }
   </script>
 </body>
 </html>
