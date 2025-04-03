@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Timestamp</title>
+  <link rel="icon" href="https://i.imgur.com/m8KZndA.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      background: #f7f9fc;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+      color: white;
+      padding: 20px;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .sidebar .logo span {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .sidebar nav a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+    }
+
+    .sidebar nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      width: 100%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      color: #5c6bc0;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      background: #f1f1f1;
+      color: #37474f;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.1em;
+      margin: 20px 0;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #3f51b5;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #eef2f3;
+    }
+
+    .copy-btn {
+        background: #3f51b5;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        min-width: 100px;
+    }
+
+
+    .copy-btn:hover {
+        background: #5c6bc0;
+    }
+
+    .copy-btn.copied {
+        background: #28a745 !important;
+    }
+
+    code {
+      background-color: #161616;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: bold;
+      color: #0f0;
+      font-size: 1.1em;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100%;
+        z-index: 999;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .main-content {
+        padding: 80px 20px 20px 20px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body onload="generateTimestamp()">
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="https://media.giphy.com/media/zyfq9pdkYPMkGMTDFm/giphy.gif" alt="Logo" />
+      <span>OP TOOLS</span>
+    </div>
+    <nav>
+      <a href="../"><i class="fa fa-comments"></i> Transform</a>
+      <a href="../gmail/"><i class="fa fa-envelope"></i> Gmail</a>
+      <a href="../password/"><i class="fa fa-unlock-alt"></i> Password</a>
+      <a href="../logs/"><i class="fa fa-sign-in"></i> Log Viewer</a>
+      <a href="../number/"><i class="fa fa-id-card"></i> ID Number</a>
+      <a href="../name/"><i class="fa fa-font"></i> Stylish Name</a>
+      <a href="#"><i class="fa fa-clock"></i> Timestamp</a>  
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="card">
+      <h2>Discord Timestamp</h2>
+      <div class="table-container">
+        <table id="outputTable">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Code</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <input type="text" id="datetimeInput" readonly />
+    </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+
+    function generateTimestamp() {
+      let now = new Date();
+      document.getElementById("datetimeInput").value = now.toLocaleString("en-US");
+      let unixTimestamp = Math.floor(now.getTime() / 1000);
+
+      let formats = {
+        "F": "Sunday, February 16, 2025 at 10:18 PM",
+        "f": "February 16, 2025 at 10:18 PM",
+        "D": "February 16, 2025",
+        "d": "2025/02/16",
+        "T": "22:18:00",
+        "t": "22:18",
+        "R": "20 seconds ago"
+      };
+
+      let tableBody = document.querySelector("#outputTable tbody");
+      tableBody.innerHTML = "";
+
+      for (let format in formats) {
+        let discordCode = `<t:${unixTimestamp}:${format}>`;
+        let row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${formats[format]}</td>
+          <td><code>${discordCode}</code></td>
+          <td><button class="copy-btn" onclick="copyToClipboard(this, '${discordCode}')"><i class="fas fa-copy"></i> Copy</button></td>
+        `;
+        tableBody.appendChild(row);
+      }
+    }
+
+    function copyToClipboard(button, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        button.innerHTML = '<i class="fa fa-check"></i> Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerHTML = '<i class="fa fa-copy"></i> Copy';
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error("Copy failed: ", err);
+      });
+    }
+  </script>
+
+</body>
+</html>
