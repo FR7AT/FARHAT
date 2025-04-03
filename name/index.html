@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stylish Name</title>
+  <link rel="icon" href="https://i.imgur.com/m8KZndA.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      background: #f7f9fc;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+      color: white;
+      padding: 20px;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .sidebar .logo span {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .sidebar nav a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+    }
+
+    .sidebar nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      width: 100%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      color: #5c6bc0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .input-container input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .output-container {
+      background: #f1f3f6;
+      border-radius: 12px;
+      padding: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .name-style {
+      background: white;
+      margin: 8px 0;
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copy-btn {
+      background: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: #5c6bc0;
+    }
+
+    .copied {
+      background: #28a745 !important;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100%;
+        z-index: 999;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .main-content {
+        padding: 80px 20px 20px 20px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="https://media.giphy.com/media/zyfq9pdkYPMkGMTDFm/giphy.gif" alt="Logo" />
+      <span>OP TOOLS</span>
+    </div>
+    <nav>
+      <a href="../"><i class="fa fa-comments"></i> Transform</a>
+      <a href="../gmail/"><i class="fa fa-envelope"></i> Gmail</a>
+      <a href="../password/"><i class="fa fa-unlock-alt"></i> Password</a>
+      <a href="../logs/"><i class="fa fa-sign-in"></i> Log Viewer</a>
+      <a href="../number/"><i class="fa fa-id-card"></i> ID Number</a>
+      <a href="#"><i class="fa fa-font"></i> Stylish Name</a>
+      <a href="../timestamp/"><i class="fa fa-clock"></i> Timestamp</a>  
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="card">
+      <h2>Stylish Name</h2>
+      <div class="input-container">
+        <input type="text" id="inputText" placeholder="Type your name..." oninput="generateStylishText()" />
+      </div>
+      <div class="output-container" id="outputText"></div>
+    </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+
+    function generateStylishText() {
+      const input = document.getElementById('inputText').value;
+      const outputDiv = document.getElementById('outputText');
+      outputDiv.innerHTML = '';
+
+      const styles = [
+            { "a": "𝓪", "b": "𝓫", "c": "𝓬", "d": "𝓭", "e": "𝓮", "f": "𝓯", "g": "𝓰", "h": "𝓱", "i": "𝓲", "j": "𝓳", "k": "𝓴", "l": "𝓵", "m": "𝓶", "n": "𝓷", "o": "𝓸", "p": "𝓹", "q": "𝓺", "r": "𝓻", "s": "𝓼", "t": "𝓽", "u": "𝓾", "v": "𝓿", "w": "𝔀", "x": "𝔁", "y": "𝔂", "z": "𝔃" },
+            { "a": "𝔞", "b": "𝔟", "c": "𝔠", "d": "𝔡", "e": "𝔢", "f": "𝔣", "g": "𝔤", "h": "𝔥", "i": "𝔦", "j": "𝔧", "k": "𝔨", "l": "𝔩", "m": "𝔪", "n": "𝔫", "o": "𝔬", "p": "𝔭", "q": "𝔮", "r": "𝔯", "s": "𝔰", "t": "𝔱", "u": "𝔲", "v": "𝔳", "w": "𝔴", "x": "𝔵", "y": "𝔶", "z": "𝔷" },
+            { "a": "α", "b": "в", "c": "¢", "d": "∂", "e": "є", "f": "ƒ", "g": "ﻭ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "η", "o": "σ", "p": "ρ", "q": "q", "r": "я", "s": "ѕ", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
+            { "a": "𝐚", "b": "𝐛", "c": "𝐜", "d": "𝐝", "e": "𝐞", "f": "𝐟", "g": "𝐠", "h": "𝐡", "i": "𝐢", "j": "𝐣", "k": "𝐤", "l": "𝐥", "m": "𝐦", "n": "𝐧", "o": "𝐨", "p": "𝐩", "q": "𝐪", "r": "𝐫", "s": "𝐬", "t": "𝐭", "u": "𝐮", "v": "𝐯", "w": "𝐰", "x": "𝐱", "y": "𝐲", "z": "𝐳" },
+            { "a": "𝕒", "b": "𝕓", "c": "𝕔", "d": "𝕕", "e": "𝕖", "f": "𝕗", "g": "𝕘", "h": "𝕙", "i": "𝕚", "j": "𝕛", "k": "𝕜", "l": "𝕝", "m": "𝕞", "n": "𝕟", "o": "𝕠", "p": "𝕡", "q": "𝕢", "r": "𝕣", "s": "𝕤", "t": "𝕥", "u": "𝕦", "v": "𝕧", "w": "𝕨", "x": "𝕩", "y": "𝕪", "z": "𝕫" },
+            { "a": "𝙖", "b": "𝙗", "c": "𝙘", "d": "𝙙", "e": "𝙚", "f": "𝙛", "g": "𝙜", "h": "𝙝", "i": "𝙞", "j": "𝙟", "k": "𝙠", "l": "𝙡", "m": "𝙢", "n": "𝙣", "o": "𝙤", "p": "𝙥", "q": "𝙦", "r": "𝙧", "s": "𝙨", "t": "𝙩", "u": "𝙪", "v": "𝙫", "w": "𝙬", "x": "𝙭", "y": "𝙮", "z": "𝙯" },
+            { "a": "𝘢", "b": "𝘣", "c": "𝘤", "d": "𝘥", "e": "𝘦", "f": "𝘧", "g": "𝘨", "h": "𝘩", "i": "𝘪", "j": "𝘫", "k": "𝘬", "l": "𝘭", "m": "𝘮", "n": "𝘯", "o": "𝘰", "p": "𝘱", "q": "𝘲", "r": "𝘳", "s": "𝘴", "t": "𝘵", "u": "𝘶", "v": "𝘷", "w": "𝘸", "x": "𝘹", "y": "𝘺", "z": "𝘻" },
+            { "a": "𝚊", "b": "𝚋", "c": "𝚌", "d": "𝚍", "e": "𝚎", "f": "𝚏", "g": "𝚐", "h": "𝚑", "i": "𝚒", "j": "𝚓", "k": "𝚔", "l": "𝚕", "m": "𝚖", "n": "𝚗", "o": "𝚘", "p": "𝚙", "q": "𝚚", "r": "𝚛", "s": "𝚜", "t": "𝚝", "u": "𝚞", "v": "𝚟", "w": "𝚠", "x": "𝚡", "y": "𝚢", "z": "𝚣" },
+            { "a": "𝒂", "b": "𝒃", "c": "𝒄", "d": "𝒅", "e": "𝒆", "f": "𝒇", "g": "𝒈", "h": "𝒉", "i": "𝒊", "j": "𝒋", "k": "𝒌", "l": "𝒍", "m": "𝒎", "n": "𝒏", "o": "𝒐", "p": "𝒑", "q": "𝒒", "r": "𝒓", "s": "𝒔", "t": "𝒕", "u": "𝒖", "v": "𝒗", "w": "𝒘", "x": "𝒙", "y": "𝒚", "z": "𝒛" },
+            { "a": "ꍏ", "b": "♭", "c": "☾", "d": "◗", "e": "ε", "f": "ϝ", "g": "❡", "h": "♄", "i": "ι", "j": "♪", "k": "қ", "l": "↳", "m": "♔", "n": "♑", "o": "⊙", "p": "ρ", "q": "զ", "r": "☈", "s": "﹩", "t": "☂", "u": "☋", "v": "✔", "w": "ω", "x": "✘", "y": "☯", "z": "ℨ" },
+            { "a": "ค", "b": "в", "c": "ς", "d": "ɗ", "e": "є", "f": "ғ", "g": "ﻮ", "h": "н", "i": "เ", "j": "נ", "k": "к", "l": "ℓ", "m": "๓", "n": "ภ", "o": "๏", "p": "ק", "q": "ợ", "r": "г", "s": "ร", "t": "t", "u": "ย", "v": "ש", "w": "ฬ", "x": "א", "y": "ץ", "z": "z" },
+            { "a": "𝐀", "b": "𝐁", "c": "𝐂", "d": "𝐃", "e": "𝐄", "f": "𝐅", "g": "𝐆", "h": "𝐇", "i": "𝐈", "j": "𝐉", "k": "𝐊", "l": "𝐋", "m": "𝐌", "n": "𝐍", "o": "𝐎", "p": "𝐏", "q": "𝐐", "r": "𝐑", "s": "𝐒", "t": "𝐓", "u": "𝐔", "v": "𝐕", "w": "𝐖", "x": "𝐗", "y": "𝐘", "z": "𝐙" },
+            { "a": "卂", "b": "乃", "c": "匚", "d": "ᗪ", "e": "乇", "f": "千", "g": "Ꮆ", "h": "卄", "i": "丨", "j": "ﾌ", "k": "Ҝ", "l": "ㄥ", "m": "爪", "n": "几", "o": "ㄖ", "p": "卩", "q": "Ɋ", "r": "尺", "s": "丂", "t": "ㄒ", "u": "ㄩ", "v": "ᐯ", "w": "山", "x": "乂", "y": "ㄚ", "z": "乙" },
+            { "a": "Λ", "b": "Ϧ", "c": "ㄈ", "d": "∂", "e": "ε", "f": "ƒ", "g": "ﻮ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "и", "o": "σ", "p": "ρ", "q": "զ", "r": "я", "s": "ร", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
+            { "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ", "e": "ᵉ", "f": "ᶠ", "g": "ᵍ", "h": "ʰ", "i": "ⁱ", "j": "ʲ", "k": "ᵏ", "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ", "p": "ᵖ", "q": "ᑫ", "r": "ʳ", "s": "ˢ", "t": "ᵗ", "u": "ᵘ", "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ", "z": "ᶻ" },
+            { "a": "卩", "b": "阝", "c": "匚", "d": "刂", "e": "巳", "f": "尸", "g": "彑", "h": "卄", "i": "囗", "j": "彡", "k": "阝", "l": "厶", "m": "冂", "n": "凵", "o": "囗", "p": "尸", "q": "⺈", "r": "彳", "s": "冂", "t": "丁", "u": "凵", "v": "亅", "w": "山", "x": "夂", "y": "丫", "z": "乙" },
+            { "a": "𝒶", "b": "𝒷", "c": "𝒸", "d": "𝒹", "e": "ℯ", "f": "𝒻", "g": "ℊ", "h": "𝒽", "i": "𝒾", "j": "𝒿", "k": "𝓀", "l": "𝓁", "m": "𝓂", "n": "𝓃", "o": "ℴ", "p": "𝓅", "q": "𝓆", "r": "𝓇", "s": "𝓈", "t": "𝓉", "u": "𝓊", "v": "𝓋", "w": "𝓌", "x": "𝓍", "y": "𝓎", "z": "𝓏" },
+            { "a": "𝒜", "b": "ℬ", "c": "𝒞", "d": "𝒟", "e": "ℰ", "f": "ℱ", "g": "𝒢", "h": "ℋ", "i": "ℐ", "j": "𝒥", "k": "𝒦", "l": "ℒ", "m": "ℳ", "n": "𝒩", "o": "𝒪", "p": "𝒫", "q": "𝒬", "r": "ℛ", "s": "𝒮", "t": "𝒯", "u": "𝒰", "v": "𝒱", "w": "𝒲", "x": "𝒳", "y": "𝒴", "z": "𝒵" },
+            { "a": "𝕬", "b": "𝕭", "c": "𝕮", "d": "𝕯", "e": "𝕰", "f": "𝕱", "g": "𝕲", "h": "𝕳", "i": "𝕴", "j": "𝕵", "k": "𝕶", "l": "𝕷", "m": "𝕸", "n": "𝕹", "o": "𝕺", "p": "𝕻", "q": "𝕼", "r": "𝕽", "s": "𝕾", "t": "𝕿", "u": "𝖀", "v": "𝖁", "w": "𝖂", "x": "𝖃", "y": "𝖄", "z": "𝖅" },
+            { "a": "𝖆", "b": "𝖇", "c": "𝖈", "d": "𝖉", "e": "𝖊", "f": "𝖋", "g": "𝖌", "h": "𝖍", "i": "𝖎", "j": "𝖏", "k": "𝖐", "l": "𝖑", "m": "𝖒", "n": "𝖓", "o": "𝖔", "p": "𝖕", "q": "𝖖", "r": "𝖗", "s": "𝖘", "t": "𝖙", "u": "𝖚", "v": "𝖛", "w": "𝖜", "x": "𝖝", "y": "𝖞", "z": "𝖟" }
+          ];
+
+      styles.forEach(style => {
+        let styledText = input.split('').map(char => style[char.toLowerCase()] || char).join('');
+        outputDiv.innerHTML += `
+          <div class="name-style">
+            <span>${styledText}</span>
+            <button class="copy-btn" onclick="copyToClipboard(this, '${styledText}')">
+              <i class="fa fa-copy"></i> Copy
+            </button>
+          </div>`;
+      });
+    }
+
+    function copyToClipboard(button, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        button.innerHTML = '<i class="fa fa-check"></i> Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerHTML = '<i class="fa fa-copy"></i> Copy';
+          button.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
