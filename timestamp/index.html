@@ -4,134 +4,260 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Timestamp</title>
-  <link rel="icon" href="https://i.imgur.com/m8KZndA.png" />
+  <link rel="icon" href="https://i.imgur.com/HTdQc4Z.png" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="description" content="Generate Discord Timestamps instantly and in all formats. A simple, stylish, and dark-mode friendly tool by Farhat.">
+  <meta name="keywords" content="discord timestamp, discord time, توليد وقت ديسكورد, وقت الديسكورد, timestamp generator">
+  <meta name="author" content="Farhat">
+  <meta name="language" content="en">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <meta property="og:title" content="Discord Timestamp Generator">
+  <meta property="og:description" content="Generate any Discord time format easily. Copy with one click. Designed with care by Farhat.">
+  <meta property="og:image" content="https://i.imgur.com/56kEqfC.png">
+  <meta property="og:url" content="https://opal3ab.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Discord Timestamp Generator">
+  <meta name="twitter:description" content="A clean, responsive tool to create Discord time codes fast.">
+  <meta name="twitter:image" content="https://i.imgur.com/56kEqfC.png">
+  <link rel="canonical" href="https://opal3ab.com/">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --main-color: #007aff;
+      --transition: 0.3s;
+
+      --bg-color: #f0f0f3;
+      --glass-color: rgba(255, 255, 255, 0.6);
+      --text-color: #1c1c1e;
+      --muted-color: #555;
+      --input-bg: #fff;
+      --input-border: #ccc;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode {
+      --bg-color: #1c1c1e;
+      --glass-color: rgba(28, 28, 30, 0.85);
+      --text-color: #f2f2f7;
+      --muted-color: #a1a1aa;
+      --input-bg: #2c2c2e;
+      --input-border: #3a3a3c;
+      --main-color: #0a84ff;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
-      background: #f7f9fc;
-      color: #333;
       min-height: 100vh;
-      overflow-x: hidden;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .theme-switch-wrapper {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      background-color: #222;
+      border-radius: 34px;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    .theme-switch input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .icon {
+      position: absolute;
+      font-size: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ffcc00;
+      transition: 0.4s;
+    }
+
+    .sun {
+      left: 8px;
+      opacity: 1;
+    }
+
+    .moon {
+      right: 8px;
+      opacity: 0;
+    }
+
+    .theme-switch input:checked + .slider .sun {
+      opacity: 0;
+    }
+
+    .theme-switch input:checked + .slider .moon {
+      opacity: 1;
     }
 
     .sidebar {
-      background: linear-gradient(135deg, #3f51b5, #5c6bc0);
-      color: white;
-      padding: 20px;
-      width: 250px;
+      width: 260px;
+      background: var(--glass-color);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--input-border);
+      padding: 30px 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-      transition: left 0.3s ease;
+      transition: background var(--transition);
     }
 
-    .sidebar .logo {
+    .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 40px;
     }
 
-    .sidebar .logo img {
-      width: 40px;
-      height: 40px;
+    .logo img {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
     }
 
-    .sidebar .logo span {
+    .logo span {
       font-size: 20px;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .sidebar nav {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
     .sidebar nav a {
       text-decoration: none;
-      color: white;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 8px;
+      color: var(--muted-color);
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: background 0.3s;
+      transition: background var(--transition), color var(--transition);
     }
 
-    .sidebar nav a:hover {
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
       background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
     }
 
     .main-content {
       flex: 1;
       padding: 40px;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .card {
-      background: white;
-      border-radius: 16px;
+      background: var(--glass-color);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--input-border);
+      border-radius: 20px;
       padding: 30px;
+      width: 100%;
       max-width: 800px;
-      margin: 0 auto;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 10px 30px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .card h2 {
-      color: #5c6bc0;
-      margin-bottom: 25px;
+    h2 {
       text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--main-color);
     }
 
     input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      background: #f1f1f1;
-      color: #37474f;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      padding: 14px;
+      font-size: 15px;
+      border-radius: 12px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-color);
       text-align: center;
-      font-size: 1.1em;
-      margin: 20px 0;
-    }
-
-    .table-container {
-      overflow-x: auto;
-      margin-top: 20px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background-color: #f9f9f9;
       border-radius: 10px;
       overflow: hidden;
     }
 
     th, td {
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
+      padding: 14px;
+      border-bottom: 1px solid var(--input-border);
       text-align: center;
     }
 
     th {
-      background: #3f51b5;
+      background: var(--main-color);
       color: white;
-      font-weight: bold;
     }
 
     tr:nth-child(even) {
-      background-color: #eef2f3;
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    code {
+      background-color: #3f51b5;
+      color: #0f0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-block;
     }
 
     .copy-btn {
@@ -145,7 +271,6 @@
         min-width: 100px;
     }
 
-
     .copy-btn:hover {
         background: #5c6bc0;
     }
@@ -154,65 +279,46 @@
         background: #28a745 !important;
     }
 
-    code {
-      background-color: #161616;
-      padding: 6px 10px;
-      border-radius: 6px;
-      display: inline-block;
-      font-weight: bold;
-      color: #0f0;
-      font-size: 1.1em;
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted-color);
     }
 
-    .sidebar-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: white;
-      cursor: pointer;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1000;
+    .footer a {
+      color: var(--main-color);
+      text-decoration: none;
+      font-weight: 500;
     }
 
     @media (max-width: 768px) {
       .sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        height: 100%;
-        z-index: 999;
-      }
-
-      .sidebar.open {
-        left: 0;
+        display: none;
       }
 
       .main-content {
-        padding: 80px 20px 20px 20px;
+        padding: 20px;
       }
 
       .card {
         padding: 20px;
       }
-
-      .sidebar-toggle {
-        display: block;
-      }
     }
   </style>
 </head>
-<body onload="generateTimestamp()">
-
-  <button class="sidebar-toggle" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
-
-  <aside class="sidebar" id="sidebar">
+<body class="dark-mode" onload="generateTimestamp()">
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch">
+      <input type="checkbox" id="toggleTheme">
+      <span class="slider">
+        <i class="fas fa-sun icon sun"></i>
+        <i class="fas fa-moon icon moon"></i>
+      </span>
+    </label>
+  </div>
+  <aside class="sidebar">
     <div class="logo">
-      <img src="https://media.giphy.com/media/zyfq9pdkYPMkGMTDFm/giphy.gif" alt="Logo" />
+      <img src="https://i.imgur.com/HTdQc4Z.png" alt="Logo" />
       <span>OP TOOLS</span>
     </div>
     <nav>
@@ -222,72 +328,86 @@
       <a href="../logs/"><i class="fa fa-sign-in"></i> Log Viewer</a>
       <a href="../number/"><i class="fa fa-id-card"></i> ID Number</a>
       <a href="../name/"><i class="fa fa-font"></i> Stylish Name</a>
-      <a href="#"><i class="fa fa-clock"></i> Timestamp</a>
-      <a href="../qr/"><i class="fa fa-qrcode"></i> QR Generator</a>
+      <a href="#" class="active"><i class="fa fa-clock"></i> Timestamp</a>
+      <a href="../qrcode/"><i class="fa fa-qrcode"></i> QR Generator</a>
       <a href="../link/"><i class="fa fa-link"></i> Link Shortener</a>
+      <a href="../translate/"><i class="fa fa-language"></i> Translate</a>
     </nav>
   </aside>
-
   <main class="main-content">
     <div class="card">
-      <h2>Discord Timestamp</h2>
-      <div class="table-container">
-        <table id="outputTable">
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Code</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <h2>🕒 Discord Timestamp Generator</h2>
       <input type="text" id="datetimeInput" readonly />
-    </div>
-    <div style="text-align: center; margin-top: 30px; font-size: 14px; color: #888;">
-      Designed with <span style="color: #28a745;">❤️</span> by 
-      <a href="https://t.me/fr7atvip" target="_blank" style="color: #3f51b5; text-decoration: none; font-weight: bold;">
-        Farhat
-      </a>
+      <table id="outputTable">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Code</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="footer">Developer ❤️ by <a href="https://t.me/fr7atvip" target="_blank">Farhat</a></div>    
     </div>
   </main>
-
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-    }
-
+    const toggle = document.getElementById("toggleTheme");
+    document.body.classList.add("dark-mode");
+    toggle.checked = true;
+    toggle.addEventListener("change", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+  
     function generateTimestamp() {
-      let now = new Date();
+      const now = new Date();
+      const unixTimestamp = Math.floor(now.getTime() / 1000);
       document.getElementById("datetimeInput").value = now.toLocaleString("en-US");
-      let unixTimestamp = Math.floor(now.getTime() / 1000);
-
-      let formats = {
-        "F": "Sunday, February 16, 2025 at 10:18 PM",
-        "f": "February 16, 2025 at 10:18 PM",
-        "D": "February 16, 2025",
-        "d": "2025/02/16",
-        "T": "22:18:00",
-        "t": "22:18",
-        "R": "20 seconds ago"
+  
+      const options = {
+        F: now.toLocaleString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        }),
+        f: now.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        }),
+        D: now.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        d: now.toLocaleDateString('en-CA'),
+        T: now.toTimeString().split(' ')[0],
+        t: now.toTimeString().split(':').slice(0, 2).join(':'),
+        R: "1 seconds ago"
       };
-
-      let tableBody = document.querySelector("#outputTable tbody");
+  
+      const tableBody = document.querySelector("#outputTable tbody");
       tableBody.innerHTML = "";
-
-      for (let format in formats) {
-        let discordCode = `<t:${unixTimestamp}:${format}>`;
-        let row = document.createElement("tr");
+  
+      for (let format in options) {
+        const discordCode = `<t:${unixTimestamp}:${format}>`;
+        const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${formats[format]}</td>
+          <td>${options[format]}</td>
           <td><code>${discordCode}</code></td>
           <td><button class="copy-btn" onclick="copyToClipboard(this, '${discordCode}')"><i class="fas fa-copy"></i> Copy</button></td>
         `;
         tableBody.appendChild(row);
       }
     }
-
+  
     function copyToClipboard(button, text) {
       navigator.clipboard.writeText(text).then(() => {
         button.innerHTML = '<i class="fa fa-check"></i> Copied!';
@@ -301,6 +421,5 @@
       });
     }
   </script>
-
 </body>
 </html>
