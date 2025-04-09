@@ -278,6 +278,21 @@
         padding: 20px;
       }
     }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 20px;
+    }
+
+    .social-icons a {
+      color: var(--muted-color);
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: var(--main-color);
+    }    
   </style>
 </head>
 <body class="dark-mode">
@@ -315,6 +330,12 @@
         <input type="text" id="inputText" placeholder="Type your name..." oninput="generateStylishText()" />
       </div>
       <div class="output-container" id="outputText"></div>
+      <div class="social-icons">
+        <a href="https://opal3ab.com/discord/" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+        <a href="https://opal3ab.com/whatsapp/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://opal3ab.com/telegram/" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://opal3ab.com/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
+      </div>      
       <div class="footer">Developer ❤️ by <a href="https://t.me/fr7atvip" target="_blank">Farhat</a></div>
     </div>
   </main>
