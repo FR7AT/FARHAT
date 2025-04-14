@@ -413,7 +413,14 @@
     async function processImage(imageSrc) {
       try {
         const img = await Jimp.read(imageSrc);
-        img.grayscale().contrast(0.5).normalize();
+
+        img
+          .resize(img.bitmap.width * 2, img.bitmap.height * 2)
+          .greyscale()
+          .contrast(1)
+          .brightness(0.2)
+          .normalize();
+
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = img.bitmap.width;
@@ -425,13 +432,16 @@
 
         Tesseract.recognize(
           canvas.toDataURL(),
-          'eng',
+          'eng+digits',
           {
             logger: m => console.log(m)
           }
         ).then(({ data: { text } }) => {
-          const numbers = text.match(/\d+/g);
           document.querySelector('.processing')?.remove();
+
+          const cleanedText = text.replace(/\s/g, '');
+          const numbers = cleanedText.match(/\d{5,}/g);
+
           addMessage(numbers ? numbers.join(', ') : 'No numbers found', 'bot');
         }).catch(err => {
           console.error(err);
