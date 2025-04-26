@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reseller</title>
+  <link rel="icon" href="https://i.imgur.com/HTdQc4Z.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --main-color: #007aff;
+      --bg-color: #f0f0f3;
+      --text-color: #1c1c1e;
+      --muted-color: #555;
+      --input-border: #ccc;
+      --card-bg: rgba(255, 255, 255, 0.6);
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode {
+      --bg-color: #1c1c1e;
+      --text-color: #f2f2f7;
+      --muted-color: #aaa;
+      --card-bg: rgba(28, 28, 30, 0.9);
+      --input-border: #444;
+      --main-color: #0a84ff;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* === Sidebar === */
+    .sidebar {
+      width: 250px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--input-border);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar nav a {
+      text-decoration: none;
+      color: var(--muted-color);
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 30px;
+    }
+
+    .toggle-lang button {
+      background: var(--main-color);
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      color: var(--muted-color);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .plans {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--input-border);
+      border-radius: 20px;
+      padding: 24px;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .duration {
+      color: var(--muted-color);
+      font-size: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      margin: 15px 0;
+      width: 100%;
+    }
+
+    .features li {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .icon {
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    .green { color: #28c76f; }
+    .red { color: #ea5455; }
+
+    .card button {
+      margin-top: auto;
+      padding: 10px 20px;
+      border-radius: 10px;
+      background: var(--main-color);
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    .card button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { padding: 20px; }
+      .card { width: 90%; }
+    }
+
+    /* === Theme Switch === */
+    .theme-switch-wrapper {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      background-color: #222;
+      border-radius: 34px;
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    .theme-switch input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .icon-switch {
+      position: absolute;
+      font-size: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ffcc00;
+    }
+
+    .sun { left: 8px; opacity: 1; }
+    .moon { right: 8px; opacity: 0; }
+
+    .theme-switch input:checked + .slider .sun {
+      opacity: 0;
+    }
+
+    .theme-switch input:checked + .slider .moon {
+      opacity: 1;
+    }
+    .social-icons {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 20px;
+    }
+
+    .social-icons a {
+      color: var(--muted-color);
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: var(--main-color);
+    }    
+  </style>
+</head>
+<body class="dark-mode">
+
+  <!-- زرار تحويل الوضع -->
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch">
+      <input type="checkbox" id="toggleTheme">
+      <span class="slider">
+        <i class="fas fa-sun icon-switch sun"></i>
+        <i class="fas fa-moon icon-switch moon"></i>
+      </span>
+    </label>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="https://i.imgur.com/HTdQc4Z.png" alt="logo" />
+      <span>OP TOOLS</span>
+    </div>
+    <nav>
+      <a href="#" class="active"><i class="fa fa-check-circle"></i> Reseller</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="top-controls">
+      <div class="toggle-lang"><button onclick="toggleLang()"><span id="langBtn">عربي</span></button></div>
+    </div>
+
+    <h1 id="resellerTitle">Reseller Packages</h1>
+    <p class="subtitle" id="resellerDesc">Choose the reseller package that fits you best.</p>
+
+    <div class="plans" id="resellerPlans"></div>
+    <div class="social-icons">
+      <a href="https://opal3ab.com/discord/" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+      <a href="https://opal3ab.com/whatsapp/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://opal3ab.com/telegram/" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+      <a href="https://opal3ab.com/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
+    </div>   
+  </main>
+
+  <script>
+    let lang = 'en';
+    const contactLink = 'https://t.me/fr7atvip';
+
+    const data = {
+      ar: {
+        langBtn: 'EN',
+        resellerTitle: 'باقات الريسيلر',
+        resellerDesc: 'نحن نقدم مجموعة متنوعة من الخطط لتناسب احتياجاتك.',
+        resellers: [
+          {
+            name: '💎 نسخة باسمك',
+            price: '50.00',
+            unit: '/ سيزون',
+            features: [
+              { text: 'لوحة', ok: true },
+              { text: 'مفاتيح الفريق متوفرة', ok: true },
+              { text: 'مفتاح واحد للمالك فقط', ok: true },
+              { text: 'متوفر شهريًا فقط', ok: true },
+              { text: 'المفاتيح اليومية غير متوفرة', ok: false },
+              { text: 'المفاتيح الأسبوعية غير متوفرة', ok: false },
+              { text: 'نسخة باسمك', ok: true },
+              { text: 'لوحة غير محدودة', ok: false }
+            ]
+          },
+          {
+            name: '⭐ ريسيلر عادي',
+            price: '10.00',
+            unit: '/ مفتاح',
+            features: [
+              { text: 'لوحة', ok: true },
+              { text: 'مفاتيح الفريق متوفرة', ok: false },
+              { text: 'مفتاح واحد للمالك فقط', ok: true },
+              { text: 'متوفر شهريًا فقط', ok: true },
+              { text: 'المفاتيح اليومية غير متوفرة', ok: false },
+              { text: 'المفاتيح الأسبوعية غير متوفرة', ok: false },
+              { text: 'نسخة باسمك', ok: false },
+              { text: 'لوحة غير محدودة', ok: false }
+            ]
+          }
+        ]
+      },
+      en: {
+        langBtn: 'AR',
+        resellerTitle: 'Reseller',
+        resellerDesc: 'We offer a variety of plans to suit your needs.',
+        resellers: [
+          {
+            name: '💎 Custom Version',
+            price: '50.00',
+            unit: '/ Season',
+            features: [
+              { text: 'Panel', ok: true },
+              { text: 'Yes team keys', ok: true },
+              { text: 'One key for owner only', ok: true },
+              { text: 'Only monthly available', ok: true },
+              { text: 'Daily keys not available', ok: false },
+              { text: 'Weekly keys not available', ok: false },
+              { text: 'Custom branding', ok: true },
+              { text: 'Unlimited panel', ok: false }
+            ]
+          },
+          {
+            name: '⭐ OP Reseller',
+            price: '10.00',
+            unit: '/ Key',
+            features: [
+              { text: 'Panel', ok: true },
+              { text: 'No team keys', ok: false },
+              { text: 'One key for owner only', ok: true },
+              { text: 'Only monthly available', ok: true },
+              { text: 'Daily keys not available', ok: false },
+              { text: 'Weekly keys not available', ok: false  },
+              { text: 'Custom branding', ok: false },
+              { text: 'Unlimited panel', ok: false }
+            ]
+          }
+        ]
+      }
+    };
+
+    function renderPlans() {
+      const d = data[lang];
+      document.getElementById('langBtn').textContent = d.langBtn;
+      document.getElementById('resellerTitle').textContent = d.resellerTitle;
+      document.getElementById('resellerDesc').textContent = d.resellerDesc;
+
+      const container = document.getElementById('resellerPlans');
+      container.innerHTML = '';
+      d.resellers.forEach(plan => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <h2>${plan.name}</h2>
+          <div class="price">$${plan.price} <span>${plan.unit}</span></div>
+          <div class="duration">${d.resellerDesc}</div>
+          <ul class="features">
+            ${plan.features.map(f => `
+              <li><span class="icon ${f.ok ? 'green' : 'red'}">${f.ok ? '✔' : '✘'}</span>${f.text}</li>
+            `).join('')}
+          </ul>
+          <button onclick="window.open('${contactLink}', '_blank')">Buy now →</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleLang() {
+      lang = lang === 'ar' ? 'en' : 'ar';
+      renderPlans();
+    }
+
+    const toggleTheme = document.getElementById("toggleTheme");
+    document.body.classList.add("dark-mode");
+    toggleTheme.checked = true;
+
+    toggleTheme.addEventListener("change", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+
+    renderPlans();
+  </script>
+
+</body>
+</html>
