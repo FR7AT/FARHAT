@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>key Viewer</title>
+  <link rel="icon" href="https://i.imgur.com/HTdQc4Z.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="description" content="View and format your key files easily in a clean, dark-mode enabled interface. A professional key Viewer tool by Farhat.">
+  <meta name="keywords" content="key Viewer, json key Viewer, key parser, Farhat tools, عرض لوجات, key formatter">
+  <meta name="author" content="Farhat">
+  <meta name="language" content="en">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <meta property="og:title" content="key Viewer">
+  <meta property="og:description" content="Quickly visualize and convert keys with this stylish, mobile-friendly key Viewer. Designed by Farhat.">
+  <meta property="og:image" content="https://i.imgur.com/56kEqfC.png">
+  <meta property="og:url" content="https://opal3ab.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="key Viewer">
+  <meta name="twitter:description" content="Convert, view, and copy your keys in seconds. Clean design. Easy to use.">
+  <meta name="twitter:image" content="https://i.imgur.com/56kEqfC.png">
+  <link rel="canonical" href="https://opal3ab.com/">
+  <style>
+    :root {
+      --main-color: #007aff;
+      --transition: 0.3s;
+
+      --bg-color: #f0f0f3;
+      --glass-color: rgba(255, 255, 255, 0.6);
+      --text-color: #1c1c1e;
+      --muted-color: #555;
+      --input-bg: #fff;
+      --input-border: #ccc;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode {
+      --bg-color: #1c1c1e;
+      --glass-color: rgba(28, 28, 30, 0.85);
+      --text-color: #f2f2f7;
+      --muted-color: #a1a1aa;
+      --input-bg: #2c2c2e;
+      --input-border: #3a3a3c;
+      --main-color: #0a84ff;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .sidebar {
+      width: 260px;
+      background: var(--glass-color);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--input-border);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      transition: background var(--transition);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar nav a {
+      text-decoration: none;
+      color: var(--muted-color);
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+    }
+
+    .main {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background: var(--glass-color);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--input-border);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 10px 30px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: background var(--transition);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--main-color);
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      background: var(--input-bg);
+      color: var(--text-color);
+      resize: none;
+      outline: none;
+    }
+
+    button {
+      background-color: var(--main-color);
+      color: white;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+
+    .copied {
+      background: #28a745 !important;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted-color);
+    }
+
+    .footer a {
+      color: var(--main-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .theme-switch-wrapper {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      background-color: #222;
+      border-radius: 34px;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    .theme-switch input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .icon {
+      position: absolute;
+      font-size: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ffcc00;
+      transition: 0.4s;
+    }
+
+    .sun {
+      left: 8px;
+      opacity: 1;
+    }
+
+    .moon {
+      right: 8px;
+      opacity: 0;
+    }
+
+    .theme-switch input:checked + .slider .sun {
+      opacity: 0;
+    }
+
+    .theme-switch input:checked + .slider .moon {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 20px;
+    }
+
+    .social-icons a {
+      color: var(--muted-color);
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: var(--main-color);
+    }    
+  </style>
+</head>
+<body class="dark-mode">
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch">
+      <input type="checkbox" id="toggleTheme">
+      <span class="slider">
+        <i class="fas fa-sun icon sun"></i>
+        <i class="fas fa-moon icon moon"></i>
+      </span>
+    </label>
+  </div>
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="https://i.imgur.com/HTdQc4Z.png" alt="logo">
+      <span>OP TOOLS</span>
+    </div>
+    <nav>
+      <a href="../"><i class="fa fa-comments"></i> Transform</a>
+      <a href="../editor/"><i class="fa fa-pen"></i> Text Editor</a>
+      <a href="../gmail/"><i class="fa fa-envelope"></i> Gmail</a>
+      <a href="../password/"><i class="fa fa-unlock-alt"></i> Password</a>
+      <a href="../logs/"><i class="fa fa-sign-in"></i> Log Viewer</a>
+      <a href="#" class="active"><i class="fa fa-key"></i> key Viewer</a>
+      <a href="../number/"><i class="fa fa-id-card"></i> ID Number</a>
+      <a href="../name/"><i class="fa fa-font"></i> Stylish Name</a>
+      <a href="../timestamp/"><i class="fa fa-clock"></i> Timestamp</a>
+      <a href="../qrcode/"><i class="fa fa-qrcode"></i> QR Generator</a>
+      <a href="../link/"><i class="fa fa-link"></i> Link Shortener</a>
+      <a href="../translate/"><i class="fa fa-language"></i> Translate</a>
+      <a href="../hex/"><i class="fa fa-plus"></i> Hex Adder</a>
+      <a href="../color/"><i class="fa fa-eye-dropper"></i> Color Converter</a>
+      <a href="../bytes/"><i class="fa fa-code"></i> Bytes Builder</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <div class="container">
+      <h1>📜 key Viewer</h1>
+      <textarea id="jsonInput" placeholder='Paste your JSON key here...'></textarea>
+      <button id="actionButton" onclick="handleAction()">Convert</button>
+      <div class="social-icons">
+        <a href="https://opal3ab.com/discord/" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+        <a href="https://opal3ab.com/whatsapp/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://opal3ab.com/telegram/" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://opal3ab.com/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
+      </div>      
+      <div class="footer">Developer ❤️ by <a href="https://t.me/fr7atvip" target="_blank">Farhat</a>
+      </div>
+    </div>
+  </main>
+<!-- الجزء الجديد المُعدل للتعامل مع المفاتيح -->
+<script>
+  let isProcessed = false;
+
+  const toggle = document.getElementById("toggleTheme");
+  document.body.classList.add("dark-mode");
+  toggle.checked = true;
+  toggle.addEventListener("change", () => {
+    document.body.classList.toggle("dark-mode");
+  });
+
+  function handleAction() {
+    if (!isProcessed) {
+      processKeys();
+    } else {
+      copyAllLogs();
+    }
+  }
+
+  function processKeys() {
+    const input = document.getElementById("jsonInput").value;
+    const textarea = document.getElementById("jsonInput");
+    const actionButton = document.getElementById("actionButton");
+
+    try {
+      const data = JSON.parse(input);
+      if (!data.users || !Array.isArray(data.users)) throw new Error("No valid 'users' array.");
+
+      // ترتيب المستخدمين حسب الاسم
+      const sortedUsers = data.users.sort((a, b) => a.username.localeCompare(b.username));
+
+      let result = "";
+      sortedUsers.forEach(user => {
+        result += `${user.username} => ${user.owner}\n`;
+      });
+
+      textarea.value = result;
+      actionButton.textContent = "Copy";
+      isProcessed = true;
+    } catch (e) {
+      alert("Invalid JSON or format. Please check your input.");
+      console.error(e);
+    }
+  }
+
+  function copyAllLogs() {
+    const textarea = document.getElementById("jsonInput");
+    const actionButton = document.getElementById("actionButton");
+
+    textarea.select();
+    document.execCommand("copy");
+
+    actionButton.textContent = "Copied!";
+    actionButton.classList.add("copied");
+
+    setTimeout(() => {
+      actionButton.textContent = "Copy";
+      actionButton.classList.remove("copied");
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>
