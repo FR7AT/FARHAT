@@ -1,406 +1,403 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stylish Name</title>
-  <link rel="icon" href="https://i.imgur.com/HTdQc4Z.png" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
-  <meta name="description" content="Style your name with beautiful fonts and cool text designs. A dark-mode friendly and elegant name styler by Farhat.">
-  <meta name="keywords" content="stylish name, name styler, زخرفة اسماء, fancy text, stylish text, cool fonts, Farhat tools">
-  <meta name="author" content="Farhat">
-  <meta name="language" content="en">
-  <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
-  <meta property="og:title" content="Stylish Name Generator">
-  <meta property="og:description" content="Generate stylish versions of your name with cool fonts and copy them in one click. Designed with love by Farhat.">
-  <meta property="og:image" content="https://i.imgur.com/56kEqfC.png">
-  <meta property="og:url" content="https://opal3ab.com/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stylish Name Generator">
-  <meta name="twitter:description" content="Turn any name into stylish text with one click. Fast, clean, and mobile-friendly.">
-  <meta name="twitter:image" content="https://i.imgur.com/56kEqfC.png">
-  <link rel="canonical" href="https://opal3ab.com/">
-  <style>
-    :root {
-      --main-color: #007aff;
-      --transition: 0.3s;
-      --bg-color: #f0f0f3;
-      --glass-color: rgba(255, 255, 255, 0.6);
-      --text-color: #1c1c1e;
-      --muted-color: #555;
-      --input-bg: #fff;
-      --input-border: #ccc;
-      --shadow: rgba(0, 0, 0, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OP TOOLS</title>
+    <meta name="description" content="Style your name with beautiful fonts and cool text designs. A dark-mode friendly and elegant name styler by Farhat.">
+    <meta name="twitter:image" content="https://i.imgur.com/56kEqfC.png">
+    <meta property="og:image" content="https://i.imgur.com/56kEqfC.png">
+        
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/flowbite@2.2.0/dist/flowbite.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" href="https://i.imgur.com/HTdQc4Z.png" />
 
-    body.dark-mode {
-      --bg-color: #1c1c1e;
-      --glass-color: rgba(28, 28, 30, 0.85);
-      --text-color: #f2f2f7;
-      --muted-color: #a1a1aa;
-      --input-bg: #2c2c2e;
-      --input-border: #3a3a3c;
-      --main-color: #0a84ff;
-      --shadow: rgba(0, 0, 0, 0.3);
-    }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a56db',
+                        dark: '#06070a',
+                        card: '#0d1117',
+                        border: '#1f2937'
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        html, body {
+            background-color: #06070a;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
 
-    body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      min-height: 100vh;
-      transition: background-color var(--transition), color var(--transition);
-    }
+        .cyber-bg {
+            background-image: 
+            linear-gradient(rgba(26, 86, 219, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(26, 86, 219, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
 
-    .theme-switch-wrapper {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
+        .glass-nav {
+            background: rgba(6, 7, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    .theme-switch {
-      position: relative;
-      display: inline-block;
-      width: 52px;
-      height: 28px;
-    }
+        .glass-card {
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
 
-    .theme-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.2),
+                transparent 40%
+            );
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+        }
 
-    .slider {
-      background-color: #222;
-      border-radius: 34px;
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transition: 0.4s;
-    }
+        .input-glow:focus {
+            box-shadow: 0 0 20px rgba(26, 86, 219, 0.3);
+            border-color: #1a56db;
+        }
 
-    .slider::before {
-      content: "";
-      position: absolute;
-      height: 22px;
-      width: 22px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      border-radius: 50%;
-      transition: 0.4s;
-    }
-
-    .theme-switch input:checked + .slider::before {
-      transform: translateX(24px);
-    }
-
-    .icon {
-      position: absolute;
-      font-size: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #ffcc00;
-      transition: 0.4s;
-    }
-
-    .sun { left: 8px; opacity: 1; }
-    .moon { right: 8px; opacity: 0; }
-    .theme-switch input:checked + .slider .sun { opacity: 0; }
-    .theme-switch input:checked + .slider .moon { opacity: 1; }
-
-    .sidebar {
-      width: 260px;
-      background: var(--glass-color);
-      backdrop-filter: blur(20px);
-      border-right: 1px solid var(--input-border);
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-
-    .logo img {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-    }
-
-    .logo span {
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    .sidebar nav {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .sidebar nav a {
-      text-decoration: none;
-      color: var(--muted-color);
-      font-size: 15px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    .sidebar nav a:hover,
-    .sidebar nav a.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-color);
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .card {
-      background: var(--glass-color);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--input-border);
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: 0 10px 30px var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card h2 {
-      text-align: center;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--main-color);
-    }
-
-    .input-container input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-color);
-      font-size: 16px;
-    }
-
-    .output-container {
-      background: var(--input-bg);
-      border-radius: 12px;
-      padding: 15px;
-      max-height: 300px;
-      overflow-y: auto;
-      border: 1px solid var(--input-border);
-    }
-
-    .name-style {
-      background: var(--glass-color);
-      margin: 8px 0;
-      padding: 10px 15px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(10px);
-    }
-
-    .copy-btn {
-      background: var(--main-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .copy-btn:hover {
-      background: #0066cc;
-    }
-
-    .copied {
-      background: #28a745 !important;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted-color);
-    }
-
-    .footer a {
-      color: var(--main-color);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-
-      .main-content {
-        padding: 20px;
-      }
-
-      .card {
-        padding: 20px;
-      }
-    }
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      font-size: 20px;
-    }
-
-    .social-icons a {
-      color: var(--muted-color);
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: var(--main-color);
-    }    
-  </style>
+        .output-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .output-scroll::-webkit-scrollbar-track {
+            background: #0d1117; 
+            border-radius: 4px;
+        }
+        .output-scroll::-webkit-scrollbar-thumb {
+            background: #1f2937; 
+            border-radius: 4px;
+        }
+        .output-scroll::-webkit-scrollbar-thumb:hover {
+            background: #374151; 
+        }
+    </style>
+    
 </head>
-<body class="dark-mode">
-  <div class="theme-switch-wrapper">
-    <label class="theme-switch">
-      <input type="checkbox" id="toggleTheme">
-      <span class="slider">
-        <i class="fas fa-sun icon sun"></i>
-        <i class="fas fa-moon icon moon"></i>
-      </span>
-    </label>
-  </div>
-  <aside class="sidebar">
-    <div class="logo">
-      <img src="https://i.imgur.com/HTdQc4Z.png" alt="logo">
-      <span>OP TOOLS</span>
-    </div>
-    <nav>
-      <a href="../"><i class="fa fa-comments"></i> Transform</a>
-      <a href="../editor/"><i class="fa fa-pen"></i> Text Editor</a>
-      <a href="../gmail/"><i class="fa fa-envelope"></i> Gmail</a>
-      <a href="../password/"><i class="fa fa-unlock-alt"></i> Password</a>
-      <a href="../logs/"><i class="fa fa-sign-in"></i> Log Viewer</a>
-      <a href="../keys/"><i class="fa fa-key"></i> key Viewer</a>   
-      <a href="../number/"><i class="fa fa-id-card"></i> ID Number</a>
-      <a href="#" class="active"><i class="fa fa-font"></i> Stylish Name</a>
-      <a href="../timestamp/"><i class="fa fa-clock"></i> Timestamp</a>
-      <a href="../qrcode/"><i class="fa fa-qrcode"></i> QR Generator</a>
-      <a href="../link/"><i class="fa fa-link"></i> Link Shortener</a>
-      <a href="../translate/"><i class="fa fa-language"></i> Translate</a>
-      <a href="../hex/"><i class="fa fa-plus"></i> Hex Adder</a>
-      <a href="../color/"><i class="fa fa-eye-dropper"></i> Color Converter</a>
-      <a href="../bytes/"><i class="fa fa-code"></i> Bytes Builder</a>
-    </nav>
-  </aside>
-  <main class="main-content">
-    <div class="card">
-      <h2>🎨 Stylish Name</h2>
-      <div class="input-container">
-        <input type="text" id="inputText" placeholder="Type your name..." oninput="generateStylishText()" />
-      </div>
-      <div class="output-container" id="outputText"></div>
-      <div class="social-icons">
-        <a href="https://opal3ab.com/discord/" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
-        <a href="https://opal3ab.com/whatsapp/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://opal3ab.com/telegram/" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
-        <a href="https://opal3ab.com/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
-      </div>      
-      <div class="footer">Developer ❤️ by <a href="https://t.me/fr7atvip" target="_blank">Farhat</a></div>
-    </div>
-  </main>
-  <script>
-    const toggle = document.getElementById("toggleTheme");
-    document.body.classList.add("dark-mode");
-    toggle.checked = true;
-    toggle.addEventListener("change", () => {
-      document.body.classList.toggle("dark-mode");
-    });
 
-    function generateStylishText() {
-    const input = document.getElementById('inputText').value;
-    const outputDiv = document.getElementById('outputText');
-    outputDiv.innerHTML = '';
-    const style = [
-      { "a": "𝓪", "b": "𝓫", "c": "𝓬", "d": "𝓭", "e": "𝓮", "f": "𝓯", "g": "𝓰", "h": "𝓱", "i": "𝓲", "j": "𝓳", "k": "𝓴", "l": "𝓵", "m": "𝓶", "n": "𝓷", "o": "𝓸", "p": "𝓹", "q": "𝓺", "r": "𝓻", "s": "𝓼", "t": "𝓽", "u": "𝓾", "v": "𝓿", "w": "𝔀", "x": "𝔁", "y": "𝔂", "z": "𝔃" },
-      { "a": "𝔞", "b": "𝔟", "c": "𝔠", "d": "𝔡", "e": "𝔢", "f": "𝔣", "g": "𝔤", "h": "𝔥", "i": "𝔦", "j": "𝔧", "k": "𝔨", "l": "𝔩", "m": "𝔪", "n": "𝔫", "o": "𝔬", "p": "𝔭", "q": "𝔮", "r": "𝔯", "s": "𝔰", "t": "𝔱", "u": "𝔲", "v": "𝔳", "w": "𝔴", "x": "𝔵", "y": "𝔶", "z": "𝔷" },
-      { "a": "α", "b": "в", "c": "¢", "d": "∂", "e": "є", "f": "ƒ", "g": "ﻭ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "η", "o": "σ", "p": "ρ", "q": "q", "r": "я", "s": "ѕ", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
-      { "a": "𝐚", "b": "𝐛", "c": "𝐜", "d": "𝐝", "e": "𝐞", "f": "𝐟", "g": "𝐠", "h": "𝐡", "i": "𝐢", "j": "𝐣", "k": "𝐤", "l": "𝐥", "m": "𝐦", "n": "𝐧", "o": "𝐨", "p": "𝐩", "q": "𝐪", "r": "𝐫", "s": "𝐬", "t": "𝐭", "u": "𝐮", "v": "𝐯", "w": "𝐰", "x": "𝐱", "y": "𝐲", "z": "𝐳" },
-      { "a": "𝕒", "b": "𝕓", "c": "𝕔", "d": "𝕕", "e": "𝕖", "f": "𝕗", "g": "𝕘", "h": "𝕙", "i": "𝕚", "j": "𝕛", "k": "𝕜", "l": "𝕝", "m": "𝕞", "n": "𝕟", "o": "𝕠", "p": "𝕡", "q": "𝕢", "r": "𝕣", "s": "𝕤", "t": "𝕥", "u": "𝕦", "v": "𝕧", "w": "𝕨", "x": "𝕩", "y": "𝕪", "z": "𝕫" },
-      { "a": "𝙖", "b": "𝙗", "c": "𝙘", "d": "𝙙", "e": "𝙚", "f": "𝙛", "g": "𝙜", "h": "𝙝", "i": "𝙞", "j": "𝙟", "k": "𝙠", "l": "𝙡", "m": "𝙢", "n": "𝙣", "o": "𝙤", "p": "𝙥", "q": "𝙦", "r": "𝙧", "s": "𝙨", "t": "𝙩", "u": "𝙪", "v": "𝙫", "w": "𝙬", "x": "𝙭", "y": "𝙮", "z": "𝙯" },
-      { "a": "𝘢", "b": "𝘣", "c": "𝘤", "d": "𝘥", "e": "𝘦", "f": "𝘧", "g": "𝘨", "h": "𝘩", "i": "𝘪", "j": "𝘫", "k": "𝘬", "l": "𝘭", "m": "𝘮", "n": "𝘯", "o": "𝘰", "p": "𝘱", "q": "𝘲", "r": "𝘳", "s": "𝘴", "t": "𝘵", "u": "𝘶", "v": "𝘷", "w": "𝘸", "x": "𝘹", "y": "𝘺", "z": "𝘻" },
-      { "a": "𝚊", "b": "𝚋", "c": "𝚌", "d": "𝚍", "e": "𝚎", "f": "𝚏", "g": "𝚐", "h": "𝚑", "i": "𝚒", "j": "𝚓", "k": "𝚔", "l": "𝚕", "m": "𝚖", "n": "𝚗", "o": "𝚘", "p": "𝚙", "q": "𝚚", "r": "𝚛", "s": "𝚜", "t": "𝚝", "u": "𝚞", "v": "𝚟", "w": "𝚠", "x": "𝚡", "y": "𝚢", "z": "𝚣" },
-      { "a": "𝒂", "b": "𝒃", "c": "𝒄", "d": "𝒅", "e": "𝒆", "f": "𝒇", "g": "𝒈", "h": "𝒉", "i": "𝒊", "j": "𝒋", "k": "𝒌", "l": "𝒍", "m": "𝒎", "n": "𝒏", "o": "𝒐", "p": "𝒑", "q": "𝒒", "r": "𝒓", "s": "𝒔", "t": "𝒕", "u": "𝒖", "v": "𝒗", "w": "𝒘", "x": "𝒙", "y": "𝒚", "z": "𝒛" },
-      { "a": "ꍏ", "b": "♭", "c": "☾", "d": "◗", "e": "ε", "f": "ϝ", "g": "❡", "h": "♄", "i": "ι", "j": "♪", "k": "қ", "l": "↳", "m": "♔", "n": "♑", "o": "⊙", "p": "ρ", "q": "զ", "r": "☈", "s": "﹩", "t": "☂", "u": "☋", "v": "✔", "w": "ω", "x": "✘", "y": "☯", "z": "ℨ" },
-      { "a": "ค", "b": "в", "c": "ς", "d": "ɗ", "e": "є", "f": "ғ", "g": "ﻮ", "h": "н", "i": "เ", "j": "נ", "k": "к", "l": "ℓ", "m": "๓", "n": "ภ", "o": "๏", "p": "ק", "q": "ợ", "r": "г", "s": "ร", "t": "t", "u": "ย", "v": "ש", "w": "ฬ", "x": "א", "y": "ץ", "z": "z" },
-      { "a": "𝐀", "b": "𝐁", "c": "𝐂", "d": "𝐃", "e": "𝐄", "f": "𝐅", "g": "𝐆", "h": "𝐇", "i": "𝐈", "j": "𝐉", "k": "𝐊", "l": "𝐋", "m": "𝐌", "n": "𝐍", "o": "𝐎", "p": "𝐏", "q": "𝐐", "r": "𝐑", "s": "𝐒", "t": "𝐓", "u": "𝐔", "v": "𝐕", "w": "𝐖", "x": "𝐗", "y": "𝐘", "z": "𝐙" },
-      { "a": "卂", "b": "乃", "c": "匚", "d": "ᗪ", "e": "乇", "f": "千", "g": "Ꮆ", "h": "卄", "i": "丨", "j": "ﾌ", "k": "Ҝ", "l": "ㄥ", "m": "爪", "n": "几", "o": "ㄖ", "p": "卩", "q": "Ɋ", "r": "尺", "s": "丂", "t": "ㄒ", "u": "ㄩ", "v": "ᐯ", "w": "山", "x": "乂", "y": "ㄚ", "z": "乙" },
-      { "a": "Λ", "b": "Ϧ", "c": "ㄈ", "d": "∂", "e": "ε", "f": "ƒ", "g": "ﻮ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "и", "o": "σ", "p": "ρ", "q": "զ", "r": "я", "s": "ร", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
-      { "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ", "e": "ᵉ", "f": "ᶠ", "g": "ᵍ", "h": "ʰ", "i": "ⁱ", "j": "ʲ", "k": "ᵏ", "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ", "p": "ᵖ", "q": "ᑫ", "r": "ʳ", "s": "ˢ", "t": "ᵗ", "u": "ᵘ", "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ", "z": "ᶻ" },
-      { "a": "卩", "b": "阝", "c": "匚", "d": "刂", "e": "巳", "f": "尸", "g": "彑", "h": "卄", "i": "囗", "j": "彡", "k": "阝", "l": "厶", "m": "冂", "n": "凵", "o": "囗", "p": "尸", "q": "⺈", "r": "彳", "s": "冂", "t": "丁", "u": "凵", "v": "亅", "w": "山", "x": "夂", "y": "丫", "z": "乙" },
-      { "a": "𝒶", "b": "𝒷", "c": "𝒸", "d": "𝒹", "e": "ℯ", "f": "𝒻", "g": "ℊ", "h": "𝒽", "i": "𝒾", "j": "𝒿", "k": "𝓀", "l": "𝓁", "m": "𝓂", "n": "𝓃", "o": "ℴ", "p": "𝓅", "q": "𝓆", "r": "𝓇", "s": "𝓈", "t": "𝓉", "u": "𝓊", "v": "𝓋", "w": "𝓌", "x": "𝓍", "y": "𝓎", "z": "𝓏" },
-      { "a": "𝒜", "b": "ℬ", "c": "𝒞", "d": "𝒟", "e": "ℰ", "f": "ℱ", "g": "𝒢", "h": "ℋ", "i": "ℐ", "j": "𝒥", "k": "𝒦", "l": "ℒ", "m": "ℳ", "n": "𝒩", "o": "𝒪", "p": "𝒫", "q": "𝒬", "r": "ℛ", "s": "𝒮", "t": "𝒯", "u": "𝒰", "v": "𝒱", "w": "𝒲", "x": "𝒳", "y": "𝒴", "z": "𝒵" },
-      { "a": "𝕬", "b": "𝕭", "c": "𝕮", "d": "𝕯", "e": "𝕰", "f": "𝕱", "g": "𝕲", "h": "𝕳", "i": "𝕴", "j": "𝕵", "k": "𝕶", "l": "𝕷", "m": "𝕸", "n": "𝕹", "o": "𝕺", "p": "𝕻", "q": "𝕼", "r": "𝕽", "s": "𝕾", "t": "𝕿", "u": "𝖀", "v": "𝖁", "w": "𝖂", "x": "𝖃", "y": "𝖄", "z": "𝖅" },
-      { "a": "𝖆", "b": "𝖇", "c": "𝖈", "d": "𝖉", "e": "𝖊", "f": "𝖋", "g": "𝖌", "h": "𝖍", "i": "𝖎", "j": "𝖏", "k": "𝖐", "l": "𝖑", "m": "𝖒", "n": "𝖓", "o": "𝖔", "p": "𝖕", "q": "𝖖", "r": "𝖗", "s": "𝖘", "t": "𝖙", "u": "𝖚", "v": "𝖛", "w": "𝖜", "x": "𝖝", "y": "𝖞", "z": "𝖟" }
-          ];
+<body class="relative min-h-screen flex flex-col selection:bg-primary selection:text-white">
 
-    style.forEach(styleSet => {
-      let styled = input.split('').map(c => styleSet[c.toLowerCase()] || c).join('');
-      outputDiv.innerHTML += `
-        <div class="name-style">
-          <span>${styled}</span>
-          <button class="copy-btn" onclick="copyToClipboard(this, '${styled}')">
-            <i class="fa fa-copy"></i> Copy
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/10 rounded-full blur-[128px] animate-blob animation-delay-2000"></div>
+        <div class="cyber-bg"></div>
+    </div>
+
+    <header class="fixed top-2 md:top-4 left-0 right-0 z-50 flex justify-center px-2 md:px-4" data-aos="fade-down" data-aos-duration="800">
+      <nav class="glass-nav rounded-2xl md:rounded-full px-4 md:px-6 py-3 w-full max-w-5xl transition-all duration-300 flex flex-wrap items-center justify-between">
+        
+        <a href="/" class="flex items-center gap-2 group">
+          <img src="https://i.imgur.com/HTdQc4Z.png" class="h-8 md:h-10 rounded-full transition-transform group-hover:scale-105" alt="OP Logo" />
+        </a>
+    
+        <div class="flex items-center gap-2 lg:order-2">
+          <a href="https://raw.githubusercontent.com/FR7AT/OP-TOOLS/main/OP_TOOLS.exe" target="_blank"
+            class="hidden lg:inline-block text-white bg-primary hover:bg-blue-600 focus:ring-4 focus:ring-blue-900 font-medium rounded-full text-sm px-4 md:px-5 py-2 transition-all shadow-lg shadow-blue-900/30">
+            <i class="fas fa-download mr-2"></i> Download
+          </a>  
+    
+          <button onclick="document.getElementById('mainMenu').classList.toggle('hidden')" type="button"
+            class="inline-flex items-center p-2 text-gray-400 rounded-lg lg:hidden hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-gray-600">
+            <span class="sr-only">Open menu</span>
+            <i class="fas fa-bars text-xl"></i>
           </button>
-        </div>`;
-    });
-  }
+        </div>
+    
+        <div id="mainMenu" class="hidden w-full lg:flex lg:w-auto lg:order-1 mt-4 lg:mt-0 transition-all duration-300">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4 w-full">
 
-  function copyToClipboard(button, text) {
-    navigator.clipboard.writeText(text).then(() => {
-      button.innerHTML = '<i class="fa fa-check"></i> Copied!';
-      button.classList.add('copied');
-      setTimeout(() => {
-        button.innerHTML = '<i class="fa fa-copy"></i> Copy';
-        button.classList.remove('copied');
-      }, 2000);
-    });
-  }
-  </script>
+            <a href="../bytes" class="flex items-center text-gray-400 hover:text-white px-4 py-2 rounded-full text-base font-medium transition hover:bg-white/5 w-full lg:w-auto text-left">
+              <i class="fas fa-cube w-6 text-center mr-1"></i> Bytes Builder
+            </a>
+            <a href="../color" class="flex items-center text-gray-400 hover:text-white px-4 py-2 rounded-full text-base font-medium transition hover:bg-white/5 w-full lg:w-auto text-left">
+              <i class="fas fa-palette w-6 text-center mr-1"></i> Color
+            </a>
+             <a href="../editor" class="flex items-center text-gray-400 hover:text-white px-4 py-2 rounded-full text-base font-medium transition hover:bg-white/5 w-full lg:w-auto text-left">
+              <i class="fas fa-pen-nib w-6 text-center mr-1"></i> Text Editor
+            </a>
+             <a href="../gmail" class="flex items-center text-gray-400 hover:text-white px-4 py-2 rounded-full text-base font-medium transition hover:bg-white/5 w-full lg:w-auto text-left">
+              <i class="fas fa-envelope w-6 text-center mr-1"></i> Gmail
+            </a>
+
+            <div class="relative w-full lg:w-auto text-left">
+                <button onclick="document.getElementById('pagesMenu').classList.toggle('hidden')"
+                    class="flex items-center justify-start gap-2 text-gray-400 hover:text-white px-4 py-2 rounded-full text-base font-medium transition hover:bg-white/5 focus:outline-none w-full lg:w-auto">
+                    <i class="fas fa-th-large w-6 text-center mr-1"></i> <span>More Pages</span>
+                    <i class="fas fa-chevron-down text-xs ml-auto lg:ml-0"></i>
+                </button>
+
+                <div id="pagesMenu"
+                    class="hidden lg:absolute w-full lg:w-56 top-full left-0 mt-2 z-50 transition-all duration-300">
+                    <div
+                    class="bg-[#0f172a]/95 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl overflow-hidden p-1">
+                    <a href="../hex"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-hashtag w-5 text-center mr-3"></i> Hex Adder
+                    </a>
+                    <a href="../keys"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-key w-5 text-center mr-3"></i> key Viewer
+                    </a>
+                    <a href="../link"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-link w-5 text-center mr-3"></i> Link Shortener
+                    </a>
+                    <a href="../logs"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-file-alt w-5 text-center mr-3"></i> Log Viewer
+                    </a>
+                    <a href="../password"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-lock w-5 text-center mr-3"></i> Password
+                    </a>
+                    <a href="../qrcode"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-qrcode w-5 text-center mr-3"></i> QR Generator
+                    </a>
+                    <a href="../timestamp"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-clock w-5 text-center mr-3"></i> Timestamp
+                    </a>
+                    <a href="../translate"
+                        class="flex items-center px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors">
+                        <i class="fas fa-language w-5 text-center mr-3"></i> Translate
+                    </a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="lg:hidden w-full mt-2">
+                <a href="https://t.me/fr7atvip" target="_blank"
+                    class="flex items-center justify-center text-white bg-primary hover:bg-blue-600 font-medium rounded-full text-sm px-4 py-2 transition-all shadow-lg w-full">
+                    <i class="fab fa-telegram mr-2"></i> Contact
+                </a>
+                </div>
+            </div>
+            </div>
+      </nav>
+    </header>
+
+    <main class="flex-grow relative z-10 flex items-center justify-center pt-24 pb-12 px-6">
+        <section class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <div class="text-center lg:text-left space-y-6" data-aos="fade-right" data-aos-delay="100">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-xs font-bold tracking-wide uppercase mb-2">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Smart Tools
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+                        Stylish Name
+                    </span>
+                    <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
+                        Cool Fonts
+                    </span>
+                </h1>
+
+                <p class="text-gray-400 text-lg md:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                    Generate stylish versions of your name with cool fonts and copy them in one click. Designed for gamers and social profiles.
+                </p>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                    <a href="https://opal3ab.com/discord/" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition backdrop-blur-sm">
+                        <i class="fab fa-discord text-indigo-400"></i>
+                        <span class="text-sm font-semibold text-gray-300">Discord</span>
+                    </a>
+                    <a href="https://opal3ab.com/whatsapp/" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition backdrop-blur-sm">
+                        <i class="fab fa-whatsapp text-green-400"></i>
+                        <span class="text-sm font-semibold text-gray-300">WhatsApp</span>
+                    </a>
+                    <a href="https://opal3ab.com/telegram/" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition backdrop-blur-sm">
+                        <i class="fab fa-telegram text-blue-400"></i>
+                        <span class="text-sm font-semibold text-gray-300">Telegram</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative w-full max-w-md mx-auto" data-aos="fade-left" data-aos-delay="200">
+                <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                
+                <div class="relative glass-card rounded-2xl p-8 spotlight-card overflow-hidden group">
+                    
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/20 text-primary mb-4">
+                            <i class="fas fa-font text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">Generate Style</h2>
+                        <p class="text-sm text-gray-400 mt-2">Type your name to see magic</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2 ml-1">
+                                Your Text
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="inputText" oninput="generateStylishText()"
+                                    class="w-full pl-4 pr-4 py-3 bg-[#06070a]/50 border border-gray-700 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary input-glow transition-all"
+                                    placeholder="Type your name here..." autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div id="outputText" class="output-scroll space-y-3 max-h-[350px] overflow-y-auto pr-2">
+                            <div class="text-center text-gray-500 py-4 text-sm">
+                                Results will appear here...
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="relative z-10 py-6 text-center text-gray-600 text-sm">
+        <p>&copy; <span id="year"></span> OP TOOLS. BY 
+            <a href="https://t.me/fr7atvip" class="text-primary hover:underline">OP | FARHAT</a>
+        </p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        const cards = document.querySelectorAll(".spotlight-card");
+        cards.forEach((card) => {
+            card.onmousemove = (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+        });
+
+        function generateStylishText() {
+            const input = document.getElementById('inputText').value;
+            const outputDiv = document.getElementById('outputText');
+            
+            if (!input) {
+                outputDiv.innerHTML = '<div class="text-center text-gray-500 py-4 text-sm">Results will appear here...</div>';
+                return;
+            }
+
+            outputDiv.innerHTML = '';
+            const style = [
+                { "a": "𝓪", "b": "𝓫", "c": "𝓬", "d": "𝓭", "e": "𝓮", "f": "𝓯", "g": "𝓰", "h": "𝓱", "i": "𝓲", "j": "𝓳", "k": "𝓴", "l": "𝓵", "m": "𝓶", "n": "𝓷", "o": "𝓸", "p": "𝓹", "q": "𝓺", "r": "𝓻", "s": "𝓼", "t": "𝓽", "u": "𝓾", "v": "𝓿", "w": "𝔀", "x": "𝔁", "y": "𝔂", "z": "𝔃" },
+                { "a": "𝔞", "b": "𝔟", "c": "𝔠", "d": "𝔡", "e": "𝔢", "f": "𝔣", "g": "𝔤", "h": "𝔥", "i": "𝔦", "j": "𝔧", "k": "𝔨", "l": "𝔩", "m": "𝔪", "n": "𝔫", "o": "𝔬", "p": "𝔭", "q": "𝔮", "r": "𝔯", "s": "𝔰", "t": "𝔱", "u": "𝔲", "v": "𝔳", "w": "𝔴", "x": "𝔵", "y": "𝔶", "z": "𝔷" },
+                { "a": "α", "b": "в", "c": "¢", "d": "∂", "e": "є", "f": "ƒ", "g": "ﻭ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "η", "o": "σ", "p": "ρ", "q": "q", "r": "я", "s": "ѕ", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
+                { "a": "𝐚", "b": "𝐛", "c": "𝐜", "d": "𝐝", "e": "𝐞", "f": "𝐟", "g": "𝐠", "h": "𝐡", "i": "𝐢", "j": "𝐣", "k": "𝐤", "l": "𝐥", "m": "𝐦", "n": "𝐧", "o": "𝐨", "p": "𝐩", "q": "𝐪", "r": "𝐫", "s": "𝐬", "t": "𝐭", "u": "𝐮", "v": "𝐯", "w": "𝐰", "x": "𝐱", "y": "𝐲", "z": "𝐳" },
+                { "a": "𝕒", "b": "𝕓", "c": "𝕔", "d": "𝕕", "e": "𝕖", "f": "𝕗", "g": "𝕘", "h": "𝕙", "i": "𝕚", "j": "𝕛", "k": "𝕜", "l": "𝕝", "m": "𝕞", "n": "𝕟", "o": "𝕠", "p": "𝕡", "q": "𝕢", "r": "𝕣", "s": "𝕤", "t": "𝕥", "u": "𝕦", "v": "𝕧", "w": "𝕨", "x": "𝕩", "y": "𝕪", "z": "𝕫" },
+                { "a": "𝙖", "b": "𝙗", "c": "𝙘", "d": "𝙙", "e": "𝙚", "f": "𝙛", "g": "𝙜", "h": "𝙝", "i": "𝙞", "j": "𝙟", "k": "𝙠", "l": "𝙡", "m": "𝙢", "n": "𝙣", "o": "𝙤", "p": "𝙥", "q": "𝙦", "r": "𝙧", "s": "𝙨", "t": "𝙩", "u": "𝙪", "v": "𝙫", "w": "𝙬", "x": "𝙭", "y": "𝙮", "z": "𝙯" },
+                { "a": "𝘢", "b": "𝘣", "c": "𝘤", "d": "𝘥", "e": "𝘦", "f": "𝘧", "g": "𝘨", "h": "𝘩", "i": "𝘪", "j": "𝘫", "k": "𝘬", "l": "𝘭", "m": "𝘮", "n": "𝘯", "o": "𝘰", "p": "𝘱", "q": "𝘲", "r": "𝘳", "s": "𝘴", "t": "𝘵", "u": "𝘶", "v": "𝘷", "w": "𝘸", "x": "𝘹", "y": "𝘺", "z": "𝘻" },
+                { "a": "𝚊", "b": "𝚋", "c": "𝚌", "d": "𝚍", "e": "𝚎", "f": "𝚏", "g": "𝚐", "h": "𝚑", "i": "𝚒", "j": "𝚓", "k": "𝚔", "l": "𝚕", "m": "𝚖", "n": "𝚗", "o": "𝚘", "p": "𝚙", "q": "𝚚", "r": "𝚛", "s": "𝚜", "t": "𝚝", "u": "𝚞", "v": "𝚟", "w": "𝚠", "x": "𝚡", "y": "𝚢", "z": "𝚣" },
+                { "a": "ꍏ", "b": "♭", "c": "☾", "d": "◗", "e": "ε", "f": "ϝ", "g": "❡", "h": "♄", "i": "ι", "j": "♪", "k": "қ", "l": "↳", "m": "♔", "n": "♑", "o": "⊙", "p": "ρ", "q": "զ", "r": "☈", "s": "﹩", "t": "☂", "u": "☋", "v": "✔", "w": "ω", "x": "✘", "y": "☯", "z": "ℨ" },
+                { "a": "ค", "b": "в", "c": "ς", "d": "ɗ", "e": "є", "f": "ғ", "g": "ﻮ", "h": "н", "i": "เ", "j": "נ", "k": "к", "l": "ℓ", "m": "๓", "n": "ภ", "o": "๏", "p": "ק", "q": "ợ", "r": "г", "s": "ร", "t": "t", "u": "ย", "v": "ש", "w": "ฬ", "x": "א", "y": "ץ", "z": "z" },
+                { "a": "𝐀", "b": "𝐁", "c": "𝐂", "d": "𝐃", "e": "𝐄", "f": "𝐅", "g": "𝐆", "h": "𝐇", "i": "𝐈", "j": "𝐉", "k": "𝐊", "l": "𝐋", "m": "𝐌", "n": "𝐍", "o": "𝐎", "p": "𝐏", "q": "𝐐", "r": "𝐑", "s": "𝐒", "t": "𝐓", "u": "𝐔", "v": "𝐕", "w": "𝐖", "x": "𝐗", "y": "𝐘", "z": "𝐙" },
+                { "a": "卂", "b": "乃", "c": "匚", "d": "ᗪ", "e": "乇", "f": "千", "g": "Ꮆ", "h": "卄", "i": "丨", "j": "ﾌ", "k": "Ҝ", "l": "ㄥ", "m": "爪", "n": "几", "o": "ㄖ", "p": "卩", "q": "Ɋ", "r": "尺", "s": "丂", "t": "ㄒ", "u": "ㄩ", "v": "ᐯ", "w": "山", "x": "乂", "y": "ㄚ", "z": "乙" },
+                { "a": "Λ", "b": "Ϧ", "c": "ㄈ", "d": "∂", "e": "ε", "f": "ƒ", "g": "ﻮ", "h": "н", "i": "ι", "j": "נ", "k": "к", "l": "ℓ", "m": "м", "n": "и", "o": "σ", "p": "ρ", "q": "զ", "r": "я", "s": "ร", "t": "т", "u": "υ", "v": "ν", "w": "ω", "x": "χ", "y": "у", "z": "z" },
+                { "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ", "e": "ᵉ", "f": "ᶠ", "g": "ᵍ", "h": "ʰ", "i": "ⁱ", "j": "ʲ", "k": "ᵏ", "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ", "p": "ᵖ", "q": "ᑫ", "r": "ʳ", "s": "ˢ", "t": "ᵗ", "u": "ᵘ", "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ", "z": "ᶻ" },
+                { "a": "卩", "b": "阝", "c": "匚", "d": "刂", "e": "巳", "f": "尸", "g": "彑", "h": "卄", "i": "囗", "j": "彡", "k": "阝", "l": "厶", "m": "冂", "n": "凵", "o": "囗", "p": "尸", "q": "⺈", "r": "彳", "s": "冂", "t": "丁", "u": "凵", "v": "亅", "w": "山", "x": "夂", "y": "丫", "z": "乙" },
+                { "a": "𝒶", "b": "𝒷", "c": "𝒸", "d": "𝒹", "e": "ℯ", "f": "𝒻", "g": "ℊ", "h": "𝒽", "i": "𝒾", "j": "𝒿", "k": "𝓀", "l": "𝓁", "m": "𝓂", "n": "𝓃", "o": "ℴ", "p": "𝓅", "q": "𝓆", "r": "𝓇", "s": "𝓈", "t": "𝓉", "u": "𝓊", "v": "𝓋", "w": "𝓌", "x": "𝓍", "y": "𝓎", "z": "𝓏" },
+                { "a": "𝒜", "b": "ℬ", "c": "𝒞", "d": "𝒟", "e": "ℰ", "f": "ℱ", "g": "𝒢", "h": "ℋ", "i": "ℐ", "j": "𝒥", "k": "𝒦", "l": "ℒ", "m": "ℳ", "n": "𝒩", "o": "𝒪", "p": "𝒫", "q": "𝒬", "r": "ℛ", "s": "𝒮", "t": "𝒯", "u": "𝒰", "v": "𝒱", "w": "𝒲", "x": "𝒳", "y": "𝒴", "z": "𝒵" },
+                { "a": "𝕬", "b": "𝕭", "c": "𝕮", "d": "𝕯", "e": "𝕰", "f": "𝕱", "g": "𝕲", "h": "𝕳", "i": "𝕴", "j": "𝕵", "k": "𝕶", "l": "𝕷", "m": "𝕸", "n": "𝕹", "o": "𝕺", "p": "𝕻", "q": "𝕼", "r": "𝕽", "s": "𝕾", "t": "𝕿", "u": "𝖀", "v": "𝖁", "w": "𝖂", "x": "𝖃", "y": "𝖄", "z": "𝖅" },
+                { "a": "𝖆", "b": "𝖇", "c": "𝖈", "d": "𝖉", "e": "𝖊", "f": "𝖋", "g": "𝖌", "h": "𝖍", "i": "𝖎", "j": "𝖏", "k": "𝖐", "l": "𝖑", "m": "𝖒", "n": "𝖓", "o": "𝖔", "p": "𝖕", "q": "𝖖", "r": "𝖗", "s": "𝖘", "t": "𝖙", "u": "𝖚", "v": "𝖛", "w": "𝖜", "x": "𝖝", "y": "𝖞", "z": "𝖟" }
+            ];
+
+            style.forEach(styleSet => {
+                let styled = input.split('').map(c => styleSet[c.toLowerCase()] || c).join('');
+                
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-[#06070a]/40 border border-gray-700 p-3 rounded-xl hover:bg-white/5 transition-colors";
+                row.innerHTML = `
+                    <span class="text-white font-medium text-lg">${styled}</span>
+                    <button onclick="copyToClipboard(this, '${styled}')" 
+                        class="text-xs flex items-center gap-1 bg-primary/20 hover:bg-primary/40 text-blue-400 py-1.5 px-3 rounded-lg border border-blue-500/30 transition-all">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                `;
+                outputDiv.appendChild(row);
+            });
+        }
+
+        function copyToClipboard(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHtml = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied';
+                button.classList.remove('text-blue-400', 'bg-primary/20', 'border-blue-500/30');
+                button.classList.add('text-green-400', 'bg-green-500/20', 'border-green-500/30');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHtml;
+                    button.classList.add('text-blue-400', 'bg-primary/20', 'border-blue-500/30');
+                    button.classList.remove('text-green-400', 'bg-green-500/20', 'border-green-500/30');
+                }, 2000);
+            });
+        }
+    </script>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>    
+
 </body>
 </html>
