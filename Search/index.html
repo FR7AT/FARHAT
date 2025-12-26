@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <meta name="description" content="Search database by Phone Number or Facebook ID. Fast, secure, and clean interface.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/flowbite@2.2.0/dist/flowbite.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a56db',
+                        dark: '#06070a',
+                        card: '#0d1117',
+                        border: '#1f2937'
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body {
+            background-color: #06070a;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .cyber-bg {
+            background-image: 
+            linear-gradient(rgba(26, 86, 219, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(26, 86, 219, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        .glass-nav {
+            background: rgba(6, 7, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.2),
+                transparent 40%
+            );
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 20px rgba(26, 86, 219, 0.3);
+            border-color: #1a56db;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0d1117; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1f2937; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #374151; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .chat-bubble {
+            background: #0d1117;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border-top-left-radius: 4px;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .chat-bubble {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col selection:bg-primary selection:text-white">
+
+    <div id="disclaimerModal" class="modal-overlay active">
+        <div class="chat-bubble p-6 relative" style="width: 650px; max-width: 95%;">
+            <div class="flex items-start gap-5" dir="rtl">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-red-700 to-red-900 flex items-center justify-center text-white shadow-lg animate-pulse">
+                        <i class="fas fa-file-contract text-xl"></i>
+                    </div>
+                </div>
+                <div class="flex-1 text-right">
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-gray-700 pb-3">اتفاقية الاستخدام وإخلاء المسؤولية الشامل</h3>
+                    
+                    <div class="text-gray-200 text-base leading-relaxed space-y-5 overflow-y-auto max-h-[60vh] custom-scrollbar pl-3 pr-1">
+                        
+                        <div class="bg-red-900/20 border border-red-500/50 rounded-lg p-3 text-red-100 text-sm mb-4">
+                            <i class="fas fa-hand-paper ml-1"></i>
+                            <strong>تحذير قانوني:</strong> الوصول لهذا الموقع واستخدامه يعني موافقتك غير المشروطة على كافة البنود أدناه.
+                        </div>
+
+                        <p>1. <span class="text-blue-400 font-bold">طبيعة الخدمة (Index Only):</span> هذا الموقع يعمل كمحرك بحث فقط لبيانات متاحة مسبقاً للعموم (Publicly Available Data). المطور لا يمتلك، لا يستضيف، ولم ينشئ هذه البيانات، ولا يملك أي سلطة تعديل عليها.</p>
+                        
+                        <p>2. <span class="text-blue-400 font-bold">نطاق الاستخدام المشروع:</span> يُسمح باستخدام الأداة حصرياً للأغراض التعليمية (Educational)، البحث الأمني (Security Research)، والتحقق الشخصي. يُحظر الاستخدام لأغراض التسويق، المبيعات، أو تجميع البيانات (Scraping).</p>
+                        
+                        <p>3. <span class="text-red-500 font-bold">المسؤولية الجنائية والشخصية:</span> يقر المستخدم بأنه المسؤول الوحيد (جنائياً ومدنياً) عن أي استخدام للبيانات في أنشطة غير مشروعة مثل: الابتزاز، التشهير، المطاردة، انتحال الشخصية، أو الإزعاج. المطور يخلي مسؤوليته تماماً من هذه الأفعال.</p>
+                        
+                        <p>4. <span class="text-purple-400 font-bold">الأثر الرقمي (Digital Footprint):</span> تذكر أن تصفحك للإنترنت ليس خفياً. سجلات الاتصال والبيانات الوصفية يتم الاحتفاظ بها من قبل مزودي الخدمة (ISPs). لا تعتمد على الأداة كوسيلة لارتكاب مخالفات مجهولة المصدر.</p>
+
+                        <p>5. <span class="text-yellow-500 font-bold">مبدأ التعويض (Indemnification):</span> - هام جداً - توافق بموجب هذا البند على تعويض المطور وحمايته من أي مطالبات، خسائر، أضرار، أو تكاليف قانونية (بما في ذلك أتعاب المحاماة) قد تنشأ نتيجة لانتهاكك لهذه الشروط أو إساءة استخدامك للخدمة.</p>
+
+                        <p>6. <span class="text-gray-400 font-bold">دقة وحداثة البيانات:</span> البيانات المعروضة قد تكون قديمة أو غير محدثة. لا يضمن الموقع أن أرقام الهواتف أو الحسابات ما زالت مملوكة لنفس الأشخاص. استخدامك للبيانات للتواصل يتم على مسؤوليتك الخاصة.</p>
+
+                        <p>7. <span class="text-gray-400 font-bold">الروابط الخارجية:</span> يحتوي الموقع على روابط لمنصات خارجية (Facebook, WhatsApp) لتسهيل البحث. نحن غير مسؤولين عن محتوى هذه المنصات أو سياسات الخصوصية الخاصة بها.</p>
+
+                        <p>8. <span class="text-green-400 font-bold">الحق في النسيان (Privacy):</span> نحن نحترم الخصوصية. إذا كنت صاحب بيانات ظاهرة وترغب في إزالة فهرستها من محرك بحثنا، تواصل معنا وسيتم حجبها فوراً من العرض.</p>
+                        
+                        <p>9. <span class="text-gray-400 font-bold">التعديلات:</span> يحتفظ المطور بالحق في تعديل هذه الشروط أو إيقاف الخدمة في أي وقت دون إشعار مسبق.</p>
+
+                        <p>10. <span class="text-yellow-400 font-bold">الأهلية القانونية:</span> إقرارك بالموافقة يعني أنك مؤهل قانوناً (فوق 18 عاماً) للالتزام بهذه الاتفاقية.</p>
+                    </div>
+                    
+                    <button onclick="acceptDisclaimer()" class="mt-6 w-full py-4 bg-gradient-to-r from-red-800 to-black hover:from-red-700 hover:to-gray-900 text-white rounded-xl font-bold transition-all text-base shadow-lg shadow-red-900/40 border border-red-500/30 flex items-center justify-center gap-2 group">
+                        <i class="fas fa-check-circle"></i>
+                        <span>قرأت الشروط وأتحمل المسؤولية القانونية الكاملة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/10 rounded-full blur-[128px] animate-blob animation-delay-2000"></div>
+        <div class="cyber-bg"></div>
+    </div>
+
+    <header class="fixed top-2 md:top-4 left-0 right-0 z-50 flex justify-center px-2 md:px-4" data-aos="fade-down" data-aos-duration="800">
+      <nav class="glass-nav rounded-2xl md:rounded-full px-4 md:px-6 py-3 w-full max-w-5xl transition-all duration-300 flex flex-wrap items-center justify-between">
+        
+        <div class="flex items-center gap-2 group cursor-pointer">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center text-white font-bold">
+                <i class="fas fa-search"></i>
+            </div>
+            <span class="font-bold text-lg tracking-wide">DB SEARCH</span>
+        </div>
+    
+        <div class="flex items-center gap-2 lg:order-2">
+            </div>
+      </nav>
+    </header>
+
+    <main class="flex-grow relative z-10 flex items-center justify-center pt-24 pb-12 px-6">
+        <section class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+            <div class="text-center lg:text-left space-y-6 lg:sticky lg:top-32" data-aos="fade-right" data-aos-delay="100">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-xs font-bold tracking-wide uppercase mb-2">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Live Database
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+                        Search
+                    </span>
+                    <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
+                        Data Tool
+                    </span>
+                </h1>
+
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 animate__animated animate__fadeIn">
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Egypt">🇪🇬</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Egypt</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Kuwait">🇰🇼</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Kuwait</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="UAE">🇦🇪</span>
+                        <span class="text-[10px] text-gray-500 uppercase">UAE</span>
+                    </div>
+                    
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Saudi Arabia">🇸🇦</span>
+                        <span class="text-[10px] text-gray-500 uppercase">KSA</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Algeria">🇩🇿</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Algeria</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Libya">🇱🇾</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Libya</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Syria">🇸🇾</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Syria</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-800"></div>
+                    <div class="flex flex-col items-center gap-1 group">
+                        <span class="text-3xl filter grayscale group-hover:grayscale-0 transition duration-300 cursor-help" title="Israel">🇮🇱</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Israel</span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-lg md:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                    Search quickly by Phone Number or Facebook ID. Secure, fast, and optimized for data retrieval.
+                </p>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/5">
+                        <i class="fas fa-shield-alt text-green-400"></i>
+                        <span class="text-sm font-semibold text-gray-300">Secure</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/5">
+                        <i class="fas fa-bolt text-yellow-400"></i>
+                        <span class="text-sm font-semibold text-gray-300">Fast</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative w-full max-w-md mx-auto" data-aos="fade-left" data-aos-delay="200">
+                <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                
+                <div class="relative glass-card rounded-2xl p-6 md:p-8 spotlight-card overflow-hidden group">
+                    
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/20 text-primary mb-4">
+                            <i class="fas fa-database text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">Find Records</h2>
+                        <p class="text-sm text-gray-400 mt-2">Enter ID Facebook‎‏ or Phone Number below</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <input type="text" id="searchInput" 
+                                class="w-full px-4 py-3 bg-[#06070a]/50 border border-gray-700 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary input-glow transition-all font-mono text-sm"
+                                placeholder="e.g. 100007319070330 or +2010..." autocomplete="off">
+                        </div>
+
+                        <button id="searchBtn" onclick="initiateSearch()"
+                            class="w-full py-3.5 px-4 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-900/40 transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span>Search Database</span>
+                            <i class="fas fa-search"></i>
+                        </button>
+                        
+                        <div id="statusMessage" class="text-center text-sm font-medium min-h-[20px]"></div>
+                    </div>
+
+                    <div id="resultsArea" class="mt-6 space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-1">
+                        </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="relative z-10 py-6 text-center text-gray-600 text-sm">
+        <p>&copy; <span id="year"></span> OP TOOLS. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        function acceptDisclaimer() {
+            const modal = document.getElementById('disclaimerModal');
+            modal.classList.remove('active');
+        }
+
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const cards = document.querySelectorAll(".spotlight-card");
+        cards.forEach((card) => {
+            card.onmousemove = (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+        });
+        
+        const databaseFiles = Array.from({length: 300}, (_, i) => `${i + 1}.txt`);
+        async function initiateSearch() {
+            const input = document.getElementById('searchInput');
+            const btn = document.getElementById('searchBtn');
+            const resultsArea = document.getElementById('resultsArea');
+            const statusMsg = document.getElementById('statusMessage');
+            
+            const query = input.value.trim();
+
+            if (!query || query.length < 3) {
+                statusMsg.textContent = "⚠️ Please enter at least 3 digits.";
+                statusMsg.className = "text-center text-sm font-medium min-h-[20px] text-yellow-500 animate__animated animate__headShake";
+                setTimeout(() => statusMsg.classList.remove('animate__headShake'), 1000);
+                return;
+            }
+
+            resultsArea.innerHTML = '';
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Scanning...';
+            statusMsg.className = "text-center text-sm font-medium min-h-[20px] text-blue-400";
+            btn.disabled = true;
+            btn.classList.add('opacity-75');
+            
+            let matchCount = 0;
+            const maxResults = 50; 
+
+            try {
+                for (const fileName of databaseFiles) {
+                    try {
+                        const response = await fetch(fileName);
+                        if (!response.ok) continue;
+
+                        const text = await response.text();
+                        const lines = text.split('\n');
+
+                        for (const line of lines) {
+                            if (line.includes(query)) {
+                                matchCount++;
+                                createResultCard(line); 
+                                if (matchCount >= maxResults) break;
+                            }
+                        }
+                    } catch (err) {
+                        console.error(`Error reading ${fileName}:`, err);
+                    }
+                    if (matchCount >= maxResults) break;
+                }
+
+                if (matchCount === 0) {
+                    statusMsg.textContent = "No results found in database.";
+                    statusMsg.className = "text-center text-sm font-medium min-h-[20px] text-red-500";
+                } else {
+                    statusMsg.textContent = ""; 
+                    statusMsg.className = "text-center text-sm font-medium min-h-[20px]";
+                }
+
+            } catch (error) {
+                statusMsg.textContent = "System Error.";
+                statusMsg.className = "text-center text-sm font-medium min-h-[20px] text-red-500";
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-75');
+            }
+        }
+
+        function createResultCard(rawData) {
+            const resultsArea = document.getElementById('resultsArea');
+            const card = document.createElement('div');
+            
+            card.className = 'bg-white/5 border border-white/10 rounded-xl p-4 hover:border-primary/50 transition-colors animate__animated animate__fadeInUp';
+
+            const cleanLine = rawData.replace(/"/g, '');
+            const parts = cleanLine.split(',');
+
+            const fbId = parts[0] ? parts[0].trim() : "N/A";
+            const phone = parts[1] ? parts[1].trim() : "N/A";
+            const gender = (parts[2] && parts[2].trim() !== "") ? parts[2].trim() : "N/A";
+
+            const fbLink = `https://www.facebook.com/${fbId}`;
+            const cleanPhone = phone.replace('+', ''); 
+            const waLink = `https://wa.me/${cleanPhone}`;
+
+            let htmlContent = `
+                <div class="grid grid-cols-2 gap-y-2 text-sm mb-3">
+                    <div>
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider">ID</span>
+                        <span class="text-white font-mono break-all">${fbId}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider">Phone</span>
+                        <span class="text-white font-mono break-all">${phone}</span>
+                    </div>
+                    ${gender !== 'N/A' ? `
+                    <div class="col-span-2">
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider">Gender</span>
+                        <span class="text-gray-300">${gender}</span>
+                    </div>` : ''}
+                </div>
+
+                <div class="flex gap-2">
+                    <a href="${fbLink}" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#1877F2]/20 hover:bg-[#1877F2]/30 text-[#1877F2] text-xs font-bold py-2 rounded-lg transition-all border border-[#1877F2]/20">
+                        <i class="fab fa-facebook-f"></i> Profile
+                    </a>
+                    <a href="${waLink}" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] text-xs font-bold py-2 rounded-lg transition-all border border-[#25D366]/20">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+            `;
+
+            card.innerHTML = htmlContent;
+            resultsArea.appendChild(card);
+        }
+
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("searchBtn").click();
+            }
+        });
+    </script>
+</body>
+</html>
